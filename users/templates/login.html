@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <title>Вход в систему</title>
+</head>
+<body>
+    <h2>Вход в систему</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Имя пользователя или Email:</label>
+            {{ form.username }}
+        </div>
+
+        <div class="form-group">
+            <label>Пароль:</label>
+            {{ form.password }}
+        </div>
+
+        <button type="submit">Войти</button>
+    </form>
+
+    <p>Нет аккаунта? <a href="{% url 'users:register' %}">Зарегистрироваться</a></p>
+{% endblock %}

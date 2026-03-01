@@ -5,8 +5,287 @@
     <meta charset="UTF-8">
     <title>dfhryj</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
-<h1 style="background-color: aquamarine">шыпц</h1>
-</body>
+<header>
+    <a href="{% url 'main:index'%}"><img src="{% static 'img/логотип смарт.png' %}" alt="Логотип SmartStart"></a>
+
+        <ul>
+            <li><a href="{% url 'main:teacher_list' %}">преподаватели</a></li>
+            <li><a href="{% url 'main:contact' %}">контакты</a></li>
+            <li><a href="{% url 'main:news_list' %}">новости</a></li>
+        </ul>
+
+        <button><a href="{% url 'main:dashboard' %}">Подать заявку</a></button>
+
+    </header>
+{% block content %}
+<div class="hero-banner">
+    <img src="{% static 'img/баннер глав.png' %}" alt="Главный баннер">
+    <div class="hero-content">
+        <h1 class="hero-title">УМНЫЙ СТАРТ В ОБУЧЕНИИ</h1>
+        <p class="hero-subtitle">НАПИШИТЕ НАМ!</p>
+        <div class="hero-buttons">
+            <button class="hero-button">ЗАПИСАТЬСЯ</button>
+        </div>
+    </div>
+</div>
+<main>
+    <article>
+<div class="directions-section">
+    <h2 class="directions-title">НАПРАВЛЕНИЯ</h2>
+
+    <div class="directions-grid">
+        <!-- 1-4 класс -->
+        <div class="direction-card">
+            <div class="direction-header">
+                <span class="direction-number">1</span>
+                <span>1-4 КЛАСС</span>
+            </div>
+            <p class="direction-description">
+                Подготовка младших школьников: развитие основных навыков, адаптация к учебному процессу, формирование интереса к обучению.
+            </p>
+            <ul class="direction-list">
+                <li>Развитие логического мышления</li>
+                <li>Основы математики и чтения</li>
+                <li>Подготовка к контрольным</li>
+                <li>Индивидуальный подход</li>
+            </ul>
+        </div>
+
+        <!-- 5-8 класс -->
+        <div class="direction-card">
+            <div class="direction-header">
+                <span class="direction-number">2</span>
+                <span>5-8 КЛАСС</span>
+            </div>
+            <p class="direction-description">
+                Углубленная подготовка по основным предметам, помощь с домашними заданиями, развитие самостоятельности в учебе.
+            </p>
+            <ul class="direction-list">
+                <li>Математика и алгебра</li>
+                <li>Русский язык и литература</li>
+                <li>Иностранные языки</li>
+                <li>Естественные науки</li>
+            </ul>
+        </div>
+
+        <!-- 9-11 класс -->
+        <div class="direction-card">
+            <div class="direction-header">
+                <span class="direction-number">3</span>
+                <span>9-11 КЛАСС</span>
+            </div>
+            <p class="direction-description">
+                Подготовка к ОГЭ и ЕГЭ, помощь в выборе профессии, интенсивная подготовка к поступлению в вузы.
+            </p>
+            <ul class="direction-list">
+                <li>Подготовка к ОГЭ/ЕГЭ</li>
+                <li>Профориентация</li>
+                <li>Углубленные предметы</li>
+                <li>Пробные экзамены</li>
+            </ul>
+        </div>
+
+        <!-- Психолог -->
+        <div class="direction-card">
+            <div class="direction-header">
+                <span class="direction-number">4</span>
+                <span>ПСИХОЛОГ</span>
+            </div>
+            <p class="direction-description">
+                Психологическая поддержка школьников, помощь с адаптацией, стресс-менеджмент, развитие эмоционального интеллекта.
+            </p>
+            <ul class="direction-list">
+                <li>Консультации психолога</li>
+                <li>Помощь с адаптацией</li>
+                <li>Работа со стрессом</li>
+                <li>Развитие мотивации</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    </article>
+    <article>
+<div class="teachers-section">
+    <div class="teachers-container">
+        <h2 class="teachers-title">
+            Преподаватели школы <span class="highlight-red">London Express</span> в Чите
+        </h2>
+
+        <p class="teachers-subtitle">
+            Все преподаватели London Express имеют высшее образование, российские и международные сертификаты.
+        </p>
+
+        <div class="teachers-grid">
+            <!-- Преподаватель 1 -->
+            <div class="teacher-card">
+                <div class="teacher-photo photo-1"></div>
+                <div class="teacher-name">Преподаватель 1</div>
+                <div class="teacher-description">
+                    Опытный педагог с многолетним стажем работы
+                </div>
+                <div class="teacher-certificates">
+                    Сертификаты: TEFL, CELTA
+                </div>
+                <button class="teacher-button">Записаться на урок</button>
+            </div>
+
+            <!-- Преподаватель 2 -->
+            <div class="teacher-card">
+                <div class="teacher-photo photo-2"></div>
+                <div class="teacher-name">Преподаватель 2</div>
+                <div class="teacher-description">
+                    Специалист по современным методикам обучения
+                </div>
+                <div class="teacher-certificates">
+                    Сертификаты: TESOL, DELTA
+                </div>
+                <button class="teacher-button">Записаться на урок</button>
+            </div>
+
+            <!-- Преподаватель 3 -->
+            <div class="teacher-card">
+                <div class="teacher-photo photo-3"></div>
+                <div class="teacher-name">Преподаватель 3</div>
+                <div class="teacher-description">
+                    Эксперт в области языковой подготовки
+                </div>
+                <div class="teacher-certificates">
+                    Сертификаты: IELTS, TOEFL
+                </div>
+                <button class="teacher-button">Записаться на урок</button>
+            </div>
+
+            <!-- Преподаватель 4 -->
+            <div class="teacher-card">
+                <div class="teacher-photo photo-4"></div>
+                <div class="teacher-name">Преподаватель 4</div>
+                <div class="teacher-description">
+                    Профессионал в работе с разными возрастными группами
+                </div>
+                <div class="teacher-certificates">
+                    Сертификаты: Cambridge, Trinity
+                </div>
+                <button class="teacher-button">Записаться на урок</button>
+            </div>
+        </div>
+    </div>
+</div>    </article>
+    <article>
+<div class="about-section">
+    <div class="about-container">
+        <h2 class="about-title">О НАШЕМ ЦЕНТРЕ</h2>
+
+        <div class="about-content">
+            <p>Мы организовали дружескую академическую среду, где каждый ученик может раскрыть свой потенциал. Наш центр объединяет лучших специалистов в области образования, создающих комфортную атмосферу для эффективного обучения.</p>
+
+            <p>Мы разработали занятия для детей, чтобы раскрыть их способности и выявить сильные стороны каждого, подготовить к выпускным экзаменам на высокий балл и помочь поступить в ВУЗ мечты.</p>
+
+   </article>
+
+    <article>
+<div class="question-section">
+    <!-- Фоновое изображение -->
+    <img src="{% static 'img/заявка.png' %}" alt="" class="background-image">
+
+    <div class="question-container">
+        <h2 class="question-title">ЗАДАЙТЕ НАМ ВОПРОС</h2>
+
+        <form class="question-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text"
+                           class="form-input"
+                           placeholder="Ваше имя"
+                           required>
+                </div>
+                <div class="form-group">
+                    <input type="tel"
+                           class="form-input"
+                           placeholder="Телефон"
+                           required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="email"
+                           class="form-input"
+                           placeholder="Email"
+                           required>
+                </div>
+                <div class="form-group">
+                    <input type="text"
+                           class="form-input"
+                           placeholder="Тема вопроса">
+                </div>
+            </div>
+
+            <textarea class="form-textarea"
+                      placeholder="Ваш вопрос..."
+                      required></textarea>
+
+            <button type="submit" class="submit-button">
+                ОТПРАВИТЬ
+            </button>
+
+            <p class="form-note">
+                Нажимая кнопку "ОТПРАВИТЬ", вы соглашаетесь с обработкой персональных данных
+            </p>
+        </form>
+    </div>
+</div>
+    </article>
+</main>
+{% endblock %}
+
+<footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>О компании</h3>
+                <ul class="footer-links">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Команда</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Курсы</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Программирование</a></li>
+                    <li><a href="#">Дизайн</a></li>
+                    <li><a href="#">Маркетинг</a></li>
+                    <li><a href="#">Аналитика</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Поддержка</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Помощь</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Email: info@smartstart.ru</a></li>
+                    <li><a href="#">Телефон: +7 (999) 123-45-67</a></li>
+                    <li><a href="#">Адрес: Москва, ул. Примерная, 10</a></li>
+                    <li><a href="#">Соцсети</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 SmartStart. Все права защищены.</p>
+        </div>
+    </footer></body>
 </html>

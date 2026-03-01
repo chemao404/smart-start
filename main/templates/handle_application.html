@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Рассмотрение заявки</title>
+    <style>
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .student-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .btn-approve {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn-reject {
+            padding: 10px 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Рассмотрение заявки</h1>
+
+        <div class="student-info">
+            <h2>{{ application.student.user.get_full_name|default:application.student.user.username }}</h2>
+            <p><strong>Email:</strong> {{ application.student.user.email }}</p>
+            <p><strong>Дата заявки:</strong> {{ application.created_at|date:"d.m.Y H:i" }}</p>
+
+            {% if application.message %}
+                <p><strong>Сообщение ученика:</strong></p>
+                <p>{{ application.message|linebreaks }}</p>
+            {% endif %}
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label><strong>Ваш комментарий (обязательно при отказе):</strong></label>
+                <textarea name="comment" class="form-control" rows="4"
+                          placeholder="Напишите причину отказа или оставьте комментарий"></textarea>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button type="submit" name="action" value="approve" class="btn-approve">
+                    ✅ Принять заявку
+                </button>
+                <button type="submit" name="action" value="reject" class="btn-reject">
+                    ❌ Отклонить
+                </button>
+                <a href="{% url 'main:teacher_applications' %}" class="btn-back">Назад</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

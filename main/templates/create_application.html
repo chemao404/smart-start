@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Запись к преподавателю</title>
+    <style>
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .teacher-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #218838; }
+        .btn-cancel {
+            background: #6c757d;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Запись к преподавателю</h1>
+
+        <div class="teacher-info">
+            <h2>{{ teacher.user.get_full_name }}</h2>
+            <p><strong>Специализация:</strong> {{ teacher.specialization }}</p>
+            <p><strong>Образование:</strong> {{ teacher.education }}</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label><strong>Сообщение преподавателю (необязательно):</strong></label>
+                <textarea name="message" class="form-control" rows="4"
+                          placeholder="Напишите, что хотите изучать, ваш уровень и т.д."></textarea>
+            </div>
+
+            <button type="submit" class="btn">Отправить заявку</button>
+            <a href="{% url 'main:teacher_list' %}" class="btn btn-cancel">Отмена</a>
+        </form>
+    </div>
+</body>
+</html>

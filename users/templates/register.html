@@ -1,0 +1,288 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <title>Регистрация</title>
+    <style>
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .user-type-radio { margin: 10px 0; }
+        .user-type-radio label { margin-right: 20px; }
+        .teacher-fields, .student-fields, .parent-fields {
+            display: none;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .messages { list-style: none; padding: 0; }
+        .messages li { padding: 10px; margin-bottom: 10px; border-radius: 3px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .required { color: red; }
+        .help-text { color: #666; font-size: 12px; margin-top: 3px; }
+        .errorlist { color: red; font-size: 12px; margin: 0; padding: 0; list-style: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Регистрация</h2>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Выберите тип пользователя:</label>
+                <div class="user-type-radio">
+                    {{ user_form.user_type }}
+                </div>
+                {% if user_form.user_type.errors %}
+                    <ul class="errorlist">{{ user_form.user_type.errors }}</ul>
+                {% endif %}
+            </div>
+
+            <!-- 2. ОБЩИЕ ПОЛЯ ДЛЯ ВСЕХ -->
+            <div class="common-fields">
+                <h3>Общая информация</h3>
+
+                <div class="form-group">
+                    <label>Имя пользователя <span class="required">*</span>:</label>
+                    {{ user_form.username }}
+                    {% if user_form.username.errors %}
+                        <ul class="errorlist">{{ user_form.username.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Email <span class="required">*</span>:</label>
+                    {{ user_form.email }}
+                    {% if user_form.email.errors %}
+                        <ul class="errorlist">{{ user_form.email.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Имя <span class="required">*</span>:</label>
+                    {{ user_form.first_name }}
+                    {% if user_form.first_name.errors %}
+                        <ul class="errorlist">{{ user_form.first_name.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Фамилия <span class="required">*</span>:</label>
+                    {{ user_form.last_name }}
+                    {% if user_form.last_name.errors %}
+                        <ul class="errorlist">{{ user_form.last_name.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Телефон:</label>
+                    {{ user_form.phone }}
+                    {% if user_form.phone.errors %}
+                        <ul class="errorlist">{{ user_form.phone.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Пароль <span class="required">*</span>:</label>
+                    {{ user_form.password1 }}
+                    {% if user_form.password1.errors %}
+                        <ul class="errorlist">{{ user_form.password1.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Подтверждение пароля <span class="required">*</span>:</label>
+                    {{ user_form.password2 }}
+                    {% if user_form.password2.errors %}
+                        <ul class="errorlist">{{ user_form.password2.errors }}</ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- 3. ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ ДЛЯ ПРЕПОДАВАТЕЛЯ -->
+            <div id="teacher-fields" class="teacher-fields">
+                <h3>Дополнительные данные преподавателя <span class="required">*</span></h3>
+                <p class="help-text">Заполните информацию о вашем профессиональном опыте</p>
+
+                <div class="form-group">
+                    <label>Специализация <span class="required">*</span>:</label>
+                    {{ teacher_form.specialization }}
+                    {% if teacher_form.specialization.errors %}
+                        <ul class="errorlist">{{ teacher_form.specialization.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Образование <span class="required">*</span>:</label>
+                    {{ teacher_form.education }}
+                    {% if teacher_form.education.errors %}
+                        <ul class="errorlist">{{ teacher_form.education.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Опыт работы <span class="required">*</span>:</label>
+                    {{ teacher_form.experience }}
+                    {% if teacher_form.experience.errors %}
+                        <ul class="errorlist">{{ teacher_form.experience.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>О себе <span class="required">*</span>:</label>
+                    {{ teacher_form.about }}
+                    {% if teacher_form.about.errors %}
+                        <ul class="errorlist">{{ teacher_form.about.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Документы (дипломы, сертификаты):</label>
+                    {{ teacher_form.documents }}
+                    {% if teacher_form.documents.errors %}
+                        <ul class="errorlist">{{ teacher_form.documents.errors }}</ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- 4. ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ ДЛЯ УЧЕНИКА -->
+            <div id="student-fields" class="student-fields">
+                <h3>Дополнительные данные ученика</h3>
+
+                <div class="form-group">
+                    <label>Школа:</label>
+                    {{ student_form.school }}
+                    {% if student_form.school.errors %}
+                        <ul class="errorlist">{{ student_form.school.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Класс:</label>
+                    {{ student_form.grade }}
+                    {% if student_form.grade.errors %}
+                        <ul class="errorlist">{{ student_form.grade.errors }}</ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- 5. ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ ДЛЯ РОДИТЕЛЯ -->
+            <div id="parent-fields" class="parent-fields">
+                <h3>Дополнительные данные родителя</h3>
+
+                <div class="form-group">
+                    <label>Контактный телефон:</label>
+                    {{ parent_form.contact_phone }}
+                    {% if parent_form.contact_phone.errors %}
+                        <ul class="errorlist">{{ parent_form.contact_phone.errors }}</ul>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Альтернативный email:</label>
+                    {{ parent_form.alternative_email }}
+                    {% if parent_form.alternative_email.errors %}
+                        <ul class="errorlist">{{ parent_form.alternative_email.errors }}</ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Зарегистрироваться</button>
+        </form>
+
+        <p style="margin-top: 20px;">
+            Уже есть аккаунт? <a href="{% url 'users:login' %}">Войти</a>
+        </p>
+    </div>
+
+<script>
+    function showFields(type) {
+        // Скрываем все блоки
+        document.getElementById('teacher-fields').style.display = 'none';
+        document.getElementById('student-fields').style.display = 'none';
+        document.getElementById('parent-fields').style.display = 'none';
+
+        // Убираем required у всех полей
+        document.querySelectorAll('[required]').forEach(field => {
+            field.required = false;
+        });
+
+        // Показываем нужный блок и добавляем required
+        if (type === 'teacher') {
+            document.getElementById('teacher-fields').style.display = 'block';
+            document.querySelectorAll('#teacher-fields [required]').forEach(field => {
+                field.required = true;
+            });
+        } else if (type === 'student') {
+            document.getElementById('student-fields').style.display = 'block';
+            // Если у ученика есть обязательные поля, раскомментируйте:
+            // document.querySelectorAll('#student-fields [required]').forEach(field => {
+            //     field.required = true;
+            // });
+        } else if (type === 'parent') {
+            document.getElementById('parent-fields').style.display = 'block';
+            // Если у родителя есть обязательные поля, раскомментируйте:
+            // document.querySelectorAll('#parent-fields [required]').forEach(field => {
+            //     field.required = true;
+            // });
+        }
+    }
+
+    // При выборе радио-кнопки
+    document.querySelectorAll('input[name="user_type"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            showFields(this.value);
+        });
+    });
+
+    // Перед отправкой формы
+    document.querySelector('form').addEventListener('submit', function(e) {
+        document.querySelectorAll('.teacher-fields, .student-fields, .parent-fields').forEach(block => {
+            if (block.style.display === 'none') {
+                block.querySelectorAll('[required]').forEach(field => {
+                    field.required = false;
+                });
+            }
+        });
+    });
+
+    // При загрузке страницы
+    window.onload = function() {
+        const selectedRadio = document.querySelector('input[name="user_type"]:checked');
+        if (selectedRadio) {
+            showFields(selectedRadio.value);
+        }
+    }
+</script>
+{% endblock %}

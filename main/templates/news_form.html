@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <title>{% if object %}Редактировать{% else %}Создать{% endif %} новость</title>
+</head>
+<body>
+    <h1>{% if object %}Редактировать{% else %}Создать{% endif %} новость</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <a href="{% url 'main:news_list' %}">Отмена</a>
+{% endblock %}

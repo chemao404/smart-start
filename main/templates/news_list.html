@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <title>Новости</title>
+</head>
+<body>
+    <h1>Новости</h1>
+    
+    <a href="{% url 'main:news_create' %}">Добавить новость</a>
+    
+    {% for new in news %}
+        <div>
+            <h2><a href="{% url 'main:news_detail' new.pk %}">{{ new.title }}</a></h2>
+            <p>Дата публикации: {{ new.pub_date }}</p>
+            {% if new.image %}
+                <img src="{{ new.image.url }}" alt="{{ new.title }}" width="200">
+            {% endif %}
+            <p>{{ new.text|truncatechars:200 }}</p>
+            <a href="{% url 'main:news_update' new.pk %}">Редактировать</a>
+            <a href="{% url 'main:news_delete' new.pk %}">Удалить</a>
+        </div>
+        <hr>
+    {% empty %}
+        <p>Новостей пока нет.</p>
+    {% endfor %}
+    
+    <!-- Пагинация -->
+    {% if is_paginated %}
+        <div>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+            
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

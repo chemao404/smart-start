@@ -1,0 +1,63 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <title>Заявки ко мне</title>
+    <style>
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .application-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .status-pending { color: orange; font-weight: bold; }
+        .status-approved { color: green; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+        .student-name { font-size: 18px; font-weight: bold; }
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+        .btn-view { background: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Заявки на обучение</h1>
+
+        {% for app in applications %}
+        <div class="application-card">
+            <div class="student-name">{{ app.student.user.get_full_name|default:app.student.user.username }}</div>
+            <p><strong>Email ученика:</strong> {{ app.student.user.email }}</p>
+            <p><strong>Дата заявки:</strong> {{ app.created_at|date:"d.m.Y H:i" }}</p>
+
+            {% if app.message %}
+                <p><strong>Сообщение:</strong> {{ app.message }}</p>
+            {% endif %}
+
+            <p><strong>Статус:</strong>
+                <span class="
+                    {% if app.status == 'pending' %}status-pending
+                    {% elif app.status == 'approved' %}status-approved
+                    {% elif app.status == 'rejected' %}status-rejected{% endif %}">
+                    {{ app.get_status_display }}
+                </span>
+            </p>
+
+            {% if app.status == 'pending' %}
+                <a href="{% url 'main:handle_application' app.id %}" class="btn btn-view">
+                    Рассмотреть заявку
+                </a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>Пока нет заявок</p>
+        {% endfor %}
+
+        <p><a href="{% url 'main:dashboard' %}">← В дашборд</a></p>
+    </div>
+{% endblock %}

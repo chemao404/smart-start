@@ -1,0 +1,85 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<head>
+    <title>Личный кабинет</title>
+    <style>
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .messages { list-style: none; padding: 0; }
+        .messages li { padding: 10px; margin-bottom: 10px; }
+        .info { background: #cce5ff; color: #004085; }
+        .success { background: #d4edda; color: #155724; }
+        .warning { background: #fff3cd; color: #856404; }
+        .profile-card { border: 1px solid #ddd; padding: 20px; margin-top: 20px; }
+        .logout-btn { padding: 5px 10px; background: #dc3545; color: white;
+                      text-decoration: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Личный кабинет</h1>
+            <a href="{% url 'users:logout' %}" class="logout-btn">Выйти</a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages">
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="profile-card">
+            <h2>Добро пожаловать, {{ user.first_name }} {{ user.last_name }}!</h2>
+            <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Телефон:</strong> {{ user.phone|default:"Не указан" }}</p>
+            <p><strong>Тип пользователя:</strong>
+                {% if user.user_type == 'student' %}👨‍🎓 Ученик
+                {% elif user.user_type == 'teacher' %}👨‍🏫 Преподаватель
+                {% elif user.user_type == 'parent' %}👪 Родитель
+                {% endif %}
+            </p>
+
+            {% if user.user_type == 'teacher' and profile %}
+                <h3>Информация о преподавателе:</h3>
+                <p><strong>Специализация:</strong> {{ profile.specialization }}</p>
+                <p><strong>Статус:</strong>
+                    {% if profile.status == 'approved' %}✅ Одобрен
+                    {% elif profile.status == 'pending' %}⏳ На рассмотрении
+                    {% elif profile.status == 'rejected' %}❌ Отклонен
+                    {% endif %}
+                </p>
+                {% if profile.review_comment %}
+                    <p><strong>Комментарий:</strong> {{ profile.review_comment }}</p>
+                {% endif %}
+                            <p><a href="{% url 'main:teacher_applications' %}">📋 Управление преподавателями</a></p>
+
+            {% endif %}
+
+            {% if user.user_type == 'student' and profile %}
+                <h3>Информация об ученике:</h3>
+                <p><strong>Школа:</strong> {{ profile.school|default:"Не указана" }}</p>
+                <p><strong>Класс:</strong> {{ profile.grade|default:"Не указан" }}</p>
+            {% endif %}
+
+            {% if user.user_type == 'parent' and profile %}
+                <h3>Информация о родителе:</h3>
+                <p><strong>Контактный телефон:</strong> {{ profile.contact_phone }}</p>
+                <p><strong>Альтернативный email:</strong> {{ profile.alternative_email }}</p>
+            {% endif %}
+                                    <p><a href="{% url 'main:student_applications' %}">📋 Управление преподавателями</a></p>
+
+        </div>
+
+        {% if user.is_superuser %}
+        <div class="profile-card">
+            <h3>Панель администратора</h3>
+            <p><a href="{% url 'main:teacher_list' %}">📋 Управление преподавателями</a></p>
+        </div>
+        {% endif %}
+    </div>
+    {% endblock%}

@@ -1,0 +1,135 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <title>Рассмотрение преподавателя</title>
+    <style>
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .profile-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+        .btn-approve:hover {
+            background: #218838;
+        }
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-reject:hover {
+            background: #c82333;
+        }
+        .btn-back {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            border-radius: 3px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .status-pending { background: #ffc107; color: black; }
+        .status-approved { background: #28a745; color: white; }
+        .status-rejected { background: #dc3545; color: white; }
+        .messages {
+            list-style: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .messages .success { background: #d4edda; color: #155724; }
+        .messages .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Рассмотрение заявки преподавателя</h1>
+        <p><a href="{% url 'main:teacher_list' %}" class="btn-back">← Назад к списку</a></p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="profile-card">
+            <h2>{{ teacher.user.get_full_name|default:teacher.user.username }}</h2>
+
+            <p><strong>Текущий статус:</strong>
+                <span class="status-badge
+                    {% if teacher.status == 'pending' %}status-pending
+                    {% elif teacher.status == 'approved' %}status-approved
+                    {% elif teacher.status == 'rejected' %}status-rejected{% endif %}">
+                    {% if teacher.status == 'pending' %}⏳ На рассмотрении
+                    {% elif teacher.status == 'approved' %}✅ Одобрен
+                    {% elif teacher.status == 'rejected' %}❌ Отклонен{% endif %}
+                </span>
+            </p>
+
+            <hr>
+
+            <h3>Личная информация</h3>
+            <p><strong>Email:</strong> {{ teacher.user.email }}</p>
+            <p><strong>Телефон:</strong> {{ teacher.user.phone|default:"Не указан" }}</p>
+
+            <h3>Профессиональная информация</h3>
+            <p><strong>Специализация:</strong> {{ teacher.specialization }}</p>
+            <p><strong>Образование:</strong> {{ teacher.education|linebreaks }}</p>
+            <p><strong>Опыт работы:</strong> {{ teacher.experience|linebreaks }}</p>
+            <p><strong>О себе:</strong> {{ teacher.about|linebreaks }}</p>
+
+            {% if teacher.documents %}
+            <p><strong>Документы:</strong>
+                <a href="{{ teacher.documents.url }}" target="_blank">📎 Скачать документы</a>
+            </p>
+            {% endif %}
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label><strong>Комментарий (обязателен при отклонении):</strong></label>
+                <textarea name="comment" class="form-control" rows="4"
+                    placeholder="Укажите причину отклонения или оставьте комментарий..."></textarea>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button type="submit" name="status" value="approved" class="btn btn-approve">
+                    ✅ Одобрить преподавателя
+                </button>
+
+                <button type="submit" name="status" value="rejected" class="btn btn-reject">
+                    ❌ Отклонить заявку
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

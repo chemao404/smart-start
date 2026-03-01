@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<head>
+    <title>Мои заявки</title>
+    <style>
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .application-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .status-pending { color: orange; font-weight: bold; }
+        .status-approved { color: green; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+        .teacher-name { font-size: 18px; font-weight: bold; color: #007bff; }
+        .date { color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Мои заявки к преподавателям</h1>
+
+        {% for app in applications %}
+        <div class="application-card">
+            <div class="teacher-name">{{ app.teacher.user.get_full_name }}</div>
+            <div class="date">Отправлено: {{ app.created_at|date:"d.m.Y H:i" }}</div>
+
+            <p><strong>Специализация:</strong> {{ app.teacher.specialization }}</p>
+
+            {% if app.message %}
+                <p><strong>Ваше сообщение:</strong> {{ app.message }}</p>
+            {% endif %}
+
+            {% if app.teacher_comment %}
+                <p><strong>Ответ преподавателя:</strong> {{ app.teacher_comment }}</p>
+            {% endif %}
+
+            <p><strong>Статус:</strong>
+                <span class="
+                    {% if app.status == 'pending' %}status-pending
+                    {% elif app.status == 'approved' %}status-approved
+                    {% elif app.status == 'rejected' %}status-rejected{% endif %}">
+
+                    {% if app.status == 'pending' %}⏳ Ожидает рассмотрения
+                    {% elif app.status == 'approved' %}✅ Принята
+                    {% elif app.status == 'rejected' %}❌ Отклонена
+                    {% endif %}
+                </span>
+            </p>
+        </div>
+        {% empty %}
+        <p>У вас пока нет заявок</p>
+        {% endfor %}
+
+        <p><a href="{% url 'main:teacher_list' %}">← Найти преподавателей</a></p>
+    </div>
+{% endblock %}
