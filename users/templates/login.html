@@ -3,31 +3,147 @@
 {% block content %}
 <head>
     <title>Вход в систему</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+        }
+
+        .messages li {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .required {
+            color: red;
+        }
+
+        .help-text {
+            color: #666;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
 <body>
-    <h2>Вход в систему</h2>
+    <div class="container">
+        <h2>Вход в систему</h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
+        <form method="post">
+            {% csrf_token %}
 
-        <div class="form-group">
-            <label>Имя пользователя или Email:</label>
-            {{ form.username }}
-        </div>
+            <div class="form-group">
+                <label>Имя пользователя или Email <span class="required">*</span>:</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <ul class="errorlist">{{ form.username.errors }}</ul>
+                {% endif %}
+            </div>
 
-        <div class="form-group">
-            <label>Пароль:</label>
-            {{ form.password }}
-        </div>
+            <div class="form-group">
+                <label>Пароль <span class="required">*</span>:</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <ul class="errorlist">{{ form.password.errors }}</ul>
+                {% endif %}
+            </div>
 
-        <button type="submit">Войти</button>
-    </form>
+            <button type="submit" class="btn">Войти</button>
+        </form>
 
-    <p>Нет аккаунта? <a href="{% url 'users:register' %}">Зарегистрироваться</a></p>
+        <p>
+            Нет аккаунта? <a href="{% url 'users:register' %}">Зарегистрироваться</a>
+        </p>
+    </div>
 {% endblock %}

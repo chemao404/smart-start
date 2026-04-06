@@ -4,7 +4,6 @@ from .models import User, TeacherProfile, StudentProfile, ParentProfile
 
 
 class UserRegistrationForm(UserCreationForm):
-    """Главная форма регистрации (выбор роли)"""
     USER_TYPES = (
         ('student', 'Ученик'),
         ('teacher', 'Преподаватель'),
@@ -34,7 +33,6 @@ class UserRegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Добавляем классы для всех полей
         for field_name in ['username', 'first_name', 'last_name', 'password1', 'password2']:
             self.fields[field_name].widget.attrs.update({
                 'class': 'form-control',
@@ -43,7 +41,6 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class TeacherRegistrationForm(forms.ModelForm):
-    """Форма для преподавателя"""
     specialization = forms.CharField(
         max_length=200,
         required=True,
@@ -88,8 +85,6 @@ class TeacherRegistrationForm(forms.ModelForm):
         fields = ['specialization', 'education', 'experience', 'about', 'documents']
 
 class StudentRegistrationForm(forms.ModelForm):
-    """Форма для ученика"""
-
     class Meta:
         model = StudentProfile
         fields = ('school', 'grade')
@@ -111,8 +106,6 @@ class StudentRegistrationForm(forms.ModelForm):
 
 
 class ParentRegistrationForm(forms.ModelForm):
-    """Форма для родителя"""
-
     class Meta:
         model = ParentProfile
         fields = ('contact_phone', 'alternative_email')
@@ -134,7 +127,6 @@ class ParentRegistrationForm(forms.ModelForm):
 
 
 class CustomLoginForm(AuthenticationForm):
-    """Форма входа"""
     username = forms.CharField(
         label='Имя пользователя или Email',
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя пользователя или Email'})

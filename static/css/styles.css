@@ -1,646 +1,1451 @@
- /* Общие стили для header */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 40px;
-            font-family: Arial, sans-serif;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
+/* ==================== ОБЩИЕ СТИЛИ ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* Стили для логотипа */
-        header img:first-of-type {
-            height:100px;
-            width: auto;
-        }
+article {
+    background-color: #FFFFFF;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    color: #000000;
+}
 
-        /* Контейнер для ссылок */
-        header ul {
-            display: flex;
-            flex-direction: column;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            margin-left: 30px;
-        }
+/* Контейнер с максимальной шириной и центрированием */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
 
-        /* Стили для ссылок */
-        header li {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
+/* Секции с вертикальными отступами */
+.section {
+    margin: 100px 0;
+}
 
-        header li:hover {
-            color: #5E17E6;
-        }
+.section:first-of-type {
+    margin-top: 80px;
+}
 
-        /* Стили для кнопки */
-        header button {
-            background-color: #5E17E6;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-left: auto; /* сдвигает кнопку вправо */
-            margin-right: 20px;
-            border-radius: 0; /* убираем скругления */
-        }
+/* Стили для заголовков H2 (капслок, жирный) */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    line-height: 1.2;
+}
 
-        header button:hover {
-            background-color: #4a12c4;
-        }
-  /* Стили для футера */
-        footer {
-            background: linear-gradient(to top, #000000, #ffffff);
-            padding: 40px 20px;
-            font-family: Arial, sans-serif;
-            margin-top: 50px;
-        }
+.section-title.dark {
+    color: #000000;
+}
 
-        .footer-content {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+.section-title.purple {
+    color: #5E17E6;
+}
 
-        .footer-section {
-            margin-bottom: 20px;
-            min-width: 200px;
-        }
+/* ========== СЕКЦИЯ "НАПРАВЛЕНИЯ" (Tabs) ========== */
+.tabs-wrapper {
+    margin-top: 0;
+}
 
-        .footer-section h3 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 18px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            padding-bottom: 5px;
-        }
+/* Горизонтальное таб-меню */
+.tabs-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #000000;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+}
 
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 16px 32px 16px 0;
+    margin-right: 48px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    background-color: transparent;
+}
 
-        .footer-links li {
-            margin-bottom: 10px;
-        }
+.tab-btn:last-child {
+    margin-right: 0;
+}
 
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s;
-            display: block;
-            padding: 5px 0;
-        }
+/* Активное состояние таба */
+.tab-btn.active {
+    color: #5E17E6;
+}
 
-        .footer-links a:hover {
-            color: #5E17E6;
-            text-decoration: underline;
-        }
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #5E17E6;
+    width: calc(100% - 48px);
+}
 
-        /* Для ссылок в тёмной части градиента */
-        .footer-links a {
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
+/* Для последнего активного таба учитываем отступ */
+.tab-btn.active:last-child::after {
+    width: 100%;
+}
 
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            font-size: 14px;
-        }
-    .hero-banner {
-        position: relative;
-        width: 100%;
-        height: 500px;
-        overflow: hidden;
+/* Контентная область вкладок */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Карточки программ в сетке 4 колонки */
+.program-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.program-card {
+    background: #FFFFFF;
+    padding: 0;
+    border-radius: 0;
+}
+
+.program-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #5E17E6;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.program-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 12px;
+}
+
+.program-feature {
+    font-size: 0.85rem;
+    color: #5E17E6;
+    font-weight: 500;
+    margin-top: 12px;
+    display: inline-block;
+}
+
+/* Альтернативный вариант контента для некоторых вкладок (текст в 2-3 колонки) */
+.multi-col-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.col-text p {
+    margin-bottom: 16px;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.col-text h4 {
+    color: #5E17E6;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* ========== СЕКЦИЯ «О НАШЕМ ЦЕНТРЕ» ========== */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.about-text {
+    grid-column: span 3;
+}
+
+.about-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 400;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Воздушная колонка справа (оставляем пустоту) */
+.about-empty {
+    grid-column: span 1;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .program-grid,
+    .multi-col-content,
+    .about-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
     }
 
-    .hero-banner img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
+    .about-text {
+        grid-column: span 2;
     }
 
-    .hero-content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: white;
-        padding: 20px;
+    .about-empty {
+        display: none;
     }
 
-    .hero-title {
-        font-size: 48px;
-        font-weight: bold;
-        margin-bottom: 30px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-subtitle {
-        font-size: 24px;
-        margin-bottom: 40px;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-buttons {
-        display: flex;
+    .tabs-nav {
         gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
     }
 
-    .hero-button {
-        background-color: #5E17E6;
-        color: white;
-        border: none;
-        padding: 15px 30px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 0;
-        transition: background-color 0.3s;
-        text-transform: uppercase;
+    .tab-btn {
+        margin-right: 24px;
+        padding: 12px 0;
+        font-size: 0.9rem;
     }
 
-    .hero-button:hover {
-        background-color: #4a12c4;
+    .tab-btn.active::after {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        margin: 60px 0;
     }
 
-    .hero-button.secondary {
-        background-color: transparent;
-        border: 2px solid white;
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 32px;
     }
 
-    .hero-button.secondary:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-  .directions-section {
-        padding: 60px 40px;
-        font-family: Arial, sans-serif;
-        max-width: 1200px;
-        margin: 0 auto;
+    .program-grid,
+    .multi-col-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
     }
 
-    .directions-title {
+    .tabs-nav {
+        flex-direction: column;
+        border-bottom: none;
+        gap: 8px;
+    }
+
+    .tab-btn {
+        border-bottom: 1px solid #e0e0e0;
+        padding: 12px 0;
+        margin-right: 0;
         text-align: left;
-        font-size: 36px;
-        font-weight: bold;
-        margin-bottom: 40px;
-        color: #333;
     }
 
-    .directions-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
+    .tab-btn.active::after {
+        display: none;
     }
 
-    .direction-card {
-        background: white;
-        border-radius: 10px;
-        padding: 30px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
+    .tab-btn.active {
+        border-left: 4px solid #5E17E6;
+        padding-left: 16px;
+        background: rgba(94, 23, 230, 0.05);
     }
 
-    .direction-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    .about-text {
+        grid-column: span 1;
     }
+}
 
-    .direction-header {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: #5E17E6;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+/* ==================== СТИЛИ HERO-СЕКЦИИ ==================== */
+section {
+    background-color: #000000;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    line-height: 1.3;
+    overflow-x: hidden;
+}
 
-    .direction-number {
-        background-color: #5E17E6;
-        color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-    }
+/* Hero-секция занимает минимум 100vh, но с комфортными отступами */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #000000;
+    overflow: hidden;
+}
 
-    .direction-description {
-        color: #666;
-        line-height: 1.6;
-        font-size: 16px;
-    }
+/* ========== 2. Фон (текстура + свечение) ========== */
+/* Топографическая текстура (изолинии) — векторный паттерн через SVG + размытие и прозрачность */
+.topo-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.4;
+    filter: blur(8px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='1.2' stroke-opacity='0.6' d='M0 200 L1200 180 M0 250 L1200 220 M0 300 L1200 280 M0 350 L1200 340 M0 400 L1200 390 M0 450 L1200 440 M0 500 L1200 490 M0 550 L1200 540 M0 600 L1200 590 M0 650 L1200 640 M0 700 L1200 690 M0 750 L1200 740' /%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='1' stroke-opacity='0.5' d='M200 0 L220 800 M300 0 L320 800 M400 0 L420 800 M500 0 L520 800 M600 0 L620 800 M700 0 L720 800 M800 0 L820 800 M900 0 L920 800 M1000 0 L1020 800 M1100 0 L1120 800' /%3E%3Ccircle cx='300' cy='250' r='40' stroke='%23ffffff' stroke-width='0.8' fill='none' stroke-opacity='0.3' /%3E%3Ccircle cx='750' cy='500' r='70' stroke='%23ffffff' stroke-width='0.8' fill='none' stroke-opacity='0.25' /%3E%3Cpath stroke='%23ffffff' stroke-width='0.6' stroke-opacity='0.35' fill='none' d='M150 180 L190 210 L220 185 L270 220 L310 200 L360 235 L410 210 L470 245 L520 220 L580 255 L640 230 L700 265 L760 240 L820 275 L880 250 L940 285 L1000 260 L1060 295' /%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 600px 400px;
+    background-position: 0 0;
+}
 
-    .direction-list {
-        margin-top: 15px;
-        padding-left: 20px;
-    }
+/* Дополнительный слой для более плотной топографии (без размытия, легкая наложение) */
+.topo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.2;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cpath fill='none' stroke='%235E17E6' stroke-width='0.9' d='M50 150 L120 130 L200 170 L280 140 L360 180 L440 150 L520 190 L600 160 L680 200 L760 170' /%3E%3Cpath fill='none' stroke='%23FF914C' stroke-width='0.7' d='M100 300 L180 270 L260 310 L340 280 L420 320 L500 290 L580 330 L660 300 L740 340' /%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 500px 400px;
+    mix-blend-mode: overlay;
+}
 
-    .direction-list li {
-        margin-bottom: 8px;
-        color: #555;
-    }
-    .teachers-section {
-        padding: 80px 40px;
-        background-color: #5E17E6; /* Синий фон */
-        color: white;
-        font-family: Arial, sans-serif;
-    }
+/* Радиальное свечение (оранжевый glow) в левой части за заголовком */
+.glow-orange {
+    position: absolute;
+    top: 30%;
+    left: -10%;
+    width: 80%;
+    height: 70%;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 145, 76, 0.55) 0%, rgba(255, 145, 76, 0.25) 35%, rgba(0, 0, 0, 0) 75%);
+    filter: blur(70px);
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 50%;
+}
 
-    .teachers-container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+/* Дополнительное фиолетовое свечение для глубины */
+.glow-purple {
+    position: absolute;
+    bottom: 15%;
+    right: -5%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(94, 23, 230, 0.35) 0%, rgba(94, 23, 230, 0.1) 45%, transparent 85%);
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+}
 
-    .teachers-title {
-        text-align: left;
-        font-size: 36px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        line-height: 1.2;
-    }
+/* Контейнер для контента с относительным позиционированием (поверх фоновых слоев) */
+.hero-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2rem 4rem 2rem;
+}
 
-    .highlight-red {
-        color: #ff4d4d; /* Красный цвет для выделения */
-    }
+/* ========== 3. Шапка (Header) ========== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-top: 0.5rem;
+}
 
-    .teachers-subtitle {
-        text-align: left;
-        font-size: 18px;
-        margin-bottom: 50px;
-        opacity: 0.9;
-        max-width: 800px;
-        line-height: 1.6;
-    }
+.logo-area {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
 
-    .teachers-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-    }
+.logo-text {
+    font-weight: 800;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
 
-    .teacher-card {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        padding: 25px;
+.logo-text span {
+    display: block;
+}
+
+.logo-divider {
+    width: 2px;
+    height: 48px;
+    background: linear-gradient(to bottom, #5E17E6, #FF914C);
+    margin-top: 0.2rem;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    line-height: 1;
+    color: #FF914C;
+    filter: drop-shadow(0 0 6px rgba(255,145,76,0.5));
+}
+
+/* Вертикальное меню (рядом с лого) */
+.nav-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-left: 0.75rem;
+    border-left: 1px solid rgba(94, 23, 230, 0.4);
+    padding-left: 1rem;
+}
+
+.nav-vertical a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: #F7F3FF;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s ease, text-shadow 0.2s;
+}
+
+.nav-vertical a:hover {
+    color: #FF914C;
+    text-shadow: 0 0 6px rgba(255,145,76,0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #5E17E6;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: #5E17E6;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background-color: rgba(94, 23, 230, 0.03);
+}
+
+.btn-outline:hover {
+    background: #5E17E6;
+    color: #FFFFFF;
+    box-shadow: 0 0 12px rgba(94, 23, 230, 0.5);
+    border-color: #5E17E6;
+}
+
+/* ========== 4. Основной контент (Hero Content) ========== */
+.hero-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+/* Левая колонка: текст */
+.hero-text {
+    max-width: 600px;
+}
+
+.hero-text h1 {
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.2;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.65);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.hero-sub {
+    font-weight: 500;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    letter-spacing: 0.18em;
+    color: #F7F3FF;
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    border-left: 3px solid #FF914C;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* Правая колонка: CTA кнопка */
+.hero-cta {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.btn-primary {
+    background: #5E17E6;
+    border: none;
+    padding: 1.1rem 2.8rem;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+    box-shadow: 0 12px 28px -8px rgba(94, 23, 230, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    white-space: nowrap;
+}
+
+.btn-primary:hover {
+    background: #4512b3;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 32px -10px rgba(94, 23, 230, 0.7), 0 6px 14px rgba(0,0,0,0.4);
+}
+
+/* Адаптивность под мобильные устройства */
+@media (max-width: 860px) {
+    .hero-main {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
         text-align: center;
-        transition: transform 0.3s, background 0.3s;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .teacher-card:hover {
-        transform: translateY(-10px);
-        background: rgba(255, 255, 255, 0.15);
+    .hero-text {
+        max-width: 100%;
+        text-align: left;
     }
 
-    .teacher-photo {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        margin: 0 auto 20px;
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        overflow: hidden;
-        background-color: #2a4a9f;
-        display: flex;
-        align-items: center;
+    .hero-cta {
         justify-content: center;
-        position: relative;
     }
 
-    .teacher-photo::before {
-        content: "👨‍🏫";
-        font-size: 60px;
-        opacity: 0.7;
+    .hero-text h1 {
+        text-align: left;
     }
 
-    .teacher-photo.photo-2::before {
-        content: "👩‍🏫";
+    .hero-sub {
+        text-align: left;
     }
 
-    .teacher-photo.photo-3::before {
-        content: "🧑‍🏫";
+    .header {
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    .teacher-photo.photo-4::before {
-        content: "👩‍🎓";
+    .logo-area {
+        justify-content: space-between;
+        width: 100%;
     }
 
-    .teacher-name {
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 10px;
+    .nav-vertical {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+        gap: 1.2rem;
+        justify-content: flex-start;
+        border-top: 1px solid rgba(94,23,230,0.4);
+        padding-top: 1rem;
+        margin-top: 0.25rem;
     }
 
-    .teacher-description {
-        font-size: 16px;
-        opacity: 0.9;
-        line-height: 1.5;
-        margin-bottom: 15px;
+    .nav-vertical a {
+        font-size: 0.8rem;
     }
 
-    .teacher-certificates {
-        font-size: 14px;
-        opacity: 0.8;
-        margin-bottom: 20px;
-        font-style: italic;
+    .btn-outline {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .hero-container {
+        padding: 1.5rem;
     }
 
-    .teacher-button {
-        background-color: white;
-        color: #1a3a8f;
-        border: none;
-        padding: 10px 25px;
-        font-size: 16px;
-        font-weight: bold;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+    .btn-primary {
+        padding: 0.9rem 1.8rem;
+        font-size: 0.9rem;
+        white-space: normal;
+        width: 100%;
+        text-align: center;
     }
 
-    .teacher-button:hover {
-        background-color: #ff4d4d;
-        color: white;
-        transform: scale(1.05);
+    .logo-text {
+        font-size: 1.4rem;
     }
+
+    .logo-divider {
+        height: 38px;
+    }
+
+    .logo-icon {
+        font-size: 1.6rem;
+    }
+
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Дополнительные декоративные элементы для техно-стиля */
+.tech-glow-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #5E17E6, #FF914C, #5E17E6);
+    opacity: 0.5;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* эффект свечения для контейнера, лёгкая сетка поверх */
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(94,23,230,0.08) 0px, rgba(94,23,230,0.08) 1px, transparent 1px, transparent 3px),
+        repeating-linear-gradient(90deg, rgba(255,145,76,0.05) 0px, rgba(255,145,76,0.05) 1px, transparent 1px, transparent 4px);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ==================== СТИЛИ СЕКЦИИ "О НАШЕМ ЦЕНТРЕ" ==================== */
+.about-section {
+    background-color: #FFFFFF;
+    padding: 100px 0;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Заголовок секции */
+.about-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #5E17E6;
+    margin: 0 0 48px 0;
+    line-height: 1.2;
+}
+
+/* Контентный блок — ограничиваем ширину 75% (3 колонки из 4) */
+.about-content {
+    max-width: 75%;
+}
+
+/* Текст абзацев */
+.about-text {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #1A1A1A;
+    margin: 0 0 24px 0;
+    font-weight: 400;
+}
+
+.about-text:last-child {
+    margin-bottom: 0;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 992px) {
     .about-section {
-        padding: 80px 40px;
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-        color: #333;
-    }
-
-    .about-container {
-        max-width: 1200px;
-        margin: 0 auto;
+        padding: 80px 0;
     }
 
     .about-title {
-        text-align: left;
-        font-size: 36px;
-        font-weight: bold;
-        margin-bottom: 30px;
-        color: #5E17E6;
+        font-size: 2rem;
+        margin-bottom: 40px;
     }
 
     .about-content {
-        text-align: justify;
-        line-height: 1.8;
-        font-size: 18px;
-        max-width: 1000px;
+        max-width: 85%;
+    }
+
+    .about-text {
+        font-size: 1rem;
+    }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 60px 0;
+    }
+
+    .about-title {
+        font-size: 1.75rem;
+        margin-bottom: 32px;
+    }
+
+    .about-content {
+        max-width: 100%;
+    }
+
+    .about-text {
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+}
+
+/* ==================== СТИЛИ ДЛЯ СЕКЦИИ "ПРЕИМУЩЕСТВА" ==================== */
+.advantages-section {
+    background-color: #FFFFFF;
+    padding: 100px 0;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.advantages-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.advantages-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #000000;
+    margin: 0 0 48px 0;
+    line-height: 1.2;
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 60px;
+    align-items: start;
+}
+
+/* Левая колонка с изображением */
+.advantages-image-col {
+    width: 100%;
+}
+
+.advantages-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Правая колонка с текстовыми блоками */
+.advantages-text-col {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.advantage-card {
+    background: linear-gradient(to right, #FFB75E, #FFF1AC 50%, transparent);
+    padding: 28px 32px;
+    border-radius: 0;
+    transition: transform 0.3s ease;
+}
+
+.advantage-card:hover {
+    transform: translateX(8px);
+}
+
+.advantage-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.advantage-card-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #1A1A1A;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* ==================== СТИЛИ ДЛЯ СЕКЦИИ "ПРЕПОДАВАТЕЛИ" ==================== */
+.teachers-section {
+    background-color: #5E17E6;
+    padding: 100px 0;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.teachers-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.teachers-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 0 0 56px 0;
+    line-height: 1.2;
+}
+
+.teachers-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+}
+
+.teacher-card {
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.teacher-card:hover {
+    transform: translateY(-8px);
+}
+
+.teacher-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: #3A0E99;
+}
+
+.teacher-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.teacher-card:hover .teacher-photo {
+    transform: scale(1.05);
+}
+
+/* Информационная плашка с градиентом для читаемости */
+.teacher-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 16px 16px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.5), transparent);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.teacher-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    flex: 1;
+}
+
+.teacher-subject {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ========== Адаптивность для преимуществ и преподавателей ========== */
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .advantages-section,
+    .teachers-section {
+        padding: 80px 0;
+    }
+
+    .advantages-title,
+    .teachers-title {
+        font-size: 2rem;
         margin-bottom: 40px;
     }
 
-    .about-content p {
-        margin-bottom: 25px;
+    .advantages-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 
-    .teachers-highlight {
-        background-color: white;
-        border-radius: 15px;
-        padding: 40px;
-        margin-top: 40px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .teachers-title {
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 25px;
-        color: #333;
-        text-align: left;
+    .advantages-image-col {
+        max-width: 400px;
+        margin: 0 auto;
     }
 
     .teachers-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 25px;
-        margin-top: 20px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
     }
 
-    .teacher-category {
-        background-color: #f0f4ff;
-        padding: 25px;
-        border-radius: 10px;
-        border-left: 4px solid #5E17E6;
-        transition: transform 0.3s;
+    .teacher-name {
+        font-size: 0.85rem;
     }
 
-    .teacher-category:hover {
-        transform: translateX(10px);
-        background-color: #e8eeff;
+    .teacher-subject {
+        font-size: 0.65rem;
+        white-space: normal;
+        text-align: right;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    .advantages-section,
+    .teachers-section {
+        padding: 60px 0;
     }
 
-    .category-title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: #5E17E6;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    .advantages-title,
+    .teachers-title {
+        font-size: 1.75rem;
+        margin-bottom: 32px;
     }
 
-    .category-icon {
-        font-size: 24px;
+    .advantage-card {
+        padding: 20px 24px;
     }
 
-    .category-list {
-        list-style-type: none;
-        padding-left: 0;
+    .advantage-card-title {
+        font-size: 1.2rem;
     }
 
-    .category-list li {
-        margin-bottom: 10px;
-        padding-left: 25px;
-        position: relative;
+    .advantage-card-text {
+        font-size: 0.95rem;
     }
 
-    .category-list li:before {
-        content: "✓";
-        color: #5E17E6;
-        font-weight: bold;
-        position: absolute;
-        left: 0;
+    .teachers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 
-    .adult-courses {
-        background-color: #fff5f5;
-        padding: 25px;
-        border-radius: 10px;
-        margin-top: 30px;
-        border-left: 4px solid #ff4d4d;
+    .teacher-info {
+        padding: 14px 12px 12px;
     }
 
-    .adult-title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: #ff4d4d;
+    .teacher-name {
+        font-size: 0.75rem;
     }
 
-    .signup-button {
-        background-color: #5E17E6;
-        color: white;
-        border: none;
-        padding: 15px 40px;
-        font-size: 18px;
-        font-weight: bold;
-        border-radius: 0;
-        cursor: pointer;
-        margin-top: 40px;
-        transition: background-color 0.3s;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+    .teacher-subject {
+        font-size: 0.6rem;
+    }
+}
+
+/* Маленькие мобильные устройства */
+@media (max-width: 480px) {
+    .teachers-grid {
+        gap: 16px;
     }
 
-    .signup-button:hover {
-        background-color: #4a12c4;
-    }
-        .question-section {
-        position: relative;
-        padding: 80px 40px;
-        font-family: Arial, sans-serif;
-        color: white;
-        overflow: hidden;
+    .teacher-name {
+        font-size: 0.7rem;
     }
 
-    .background-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
+    .teacher-subject {
+        font-size: 0.55rem;
     }
 
-    .question-section::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 2;
+    .teacher-info {
+        padding: 10px 8px 8px;
     }
+}
 
-    .question-container {
-        position: relative;
-        z-index: 3;
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
+/* ==================== СТИЛИ ДЛЯ СЕКЦИИ "ОТЗЫВЫ" ==================== */
+.reviews-section {
+    background-color: #FFFFFF;
+    padding: 100px 0;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    position: relative;
+}
+
+.reviews-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+}
+
+.reviews-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #000000;
+    margin: 0 0 48px 0;
+    line-height: 1.2;
+}
+
+/* Обертка для слайдера */
+.slider-wrapper {
+    position: relative;
+    padding: 0 60px;
+}
+
+/* Swiper контейнер */
+.reviews-swiper {
+    width: 100%;
+    overflow: hidden;
+}
+
+.reviews-swiper .swiper-wrapper {
+    display: flex;
+}
+
+.reviews-swiper .swiper-slide {
+    height: auto;
+    display: flex;
+}
+
+/* Стили карточек отзывов (аналогичны карточкам преподавателей) */
+.review-card {
+    width: 100%;
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.review-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: #F5F5F5;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.review-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.review-card:hover .review-photo {
+    transform: scale(1.05);
+}
+
+/* Информационная плашка с отзывом */
+.review-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 16px 16px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6), transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.review-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+}
+
+.review-text {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 1.4;
+    opacity: 0.95;
+}
+
+/* Кастомные стрелки Swiper */
+.reviews-prev,
+.reviews-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.reviews-prev {
+    left: 0;
+}
+
+.reviews-next {
+    right: 0;
+}
+
+/* Стилизация стрелок через псевдоэлементы (шевроны) */
+.reviews-prev::after,
+.reviews-next::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    border-style: solid;
+    border-width: 3px 3px 0 0;
+    transition: all 0.3s ease;
+}
+/* ========== СТИЛИ ДЛЯ СЕКЦИИ "ЗАДАЙТЕ ВОПРОС" ========== */
+.question-section {
+    position: relative;
+    background-image: url('https://via.placeholder.com/1920x600/2C2C2C/FFFFFF?text=Background+Image');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 100px 0;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.question-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.question-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.question-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-align: center;
+    margin: 0 0 48px 0;
+    line-height: 1.2;
+}
+
+/* Форма - занимает 2 центральные колонки из 4-х */
+.question-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #5E17E6;
+    box-shadow: 0 0 0 3px rgba(94, 23, 230, 0.3);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-submit {
+    width: 100%;
+    padding: 16px 24px;
+    background: #5E17E6;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-submit:hover {
+    background: #4512b3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(94, 23, 230, 0.4);
+}
+
+.form-submit:active {
+    transform: translateY(0);
+}
+
+/* ========== СТИЛИ ДЛЯ СЕКЦИИ "ФУТЕР" ========== */
+.footer-section {
+    position: relative;
+    background-color: #000000;
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="1" stroke-opacity="0.15" d="M0 100 L1200 80 M0 150 L1200 130 M0 200 L1200 180 M0 250 L1200 230 M0 300 L1200 280 M0 350 L1200 330 M0 400 L1200 380 M0 450 L1200 430 M0 500 L1200 480 M0 550 L1200 530 M0 600 L1200 580 M0 650 L1200 630 M0 700 L1200 680 M0 750 L1200 730" /%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="0.8" stroke-opacity="0.12" d="M200 0 L220 800 M300 0 L320 800 M400 0 L420 800 M500 0 L520 800 M600 0 L620 800 M700 0 L720 800 M800 0 L820 800 M900 0 L920 800 M1000 0 L1020 800 M1100 0 L1120 800" /%3E%3C/svg%3E');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px 0 70px;
+    font-family: 'Inter', 'Montserrat', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.footer-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, #FFFFFF, rgba(0, 0, 0, 0));
+    pointer-events: none;
+    z-index: 1;
+}
+
+.footer-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0.8), transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.footer-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    align-items: start;
+}
+
+.footer-col {
+    width: 100%;
+}
+
+.footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.footer-list li {
+    margin-bottom: 0;
+    line-height: 1.9;
+}
+
+.footer-link {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-block;
+    line-height: 1.9;
+}
+
+.footer-link:hover {
+    color: #5E17E6;
+    transform: translateX(4px);
+}
+
+.footer-copyright {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.9;
+    margin-top: 0;
+    cursor: default;
+}
+
+/* Адаптивность для футера и формы */
+@media (max-width: 992px) {
+    .question-section,
+    .footer-section {
+        padding: 80px 0;
     }
 
     .question-title {
-        font-size: 42px;
-        font-weight: bold;
+        font-size: 2rem;
         margin-bottom: 40px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+    }
+
+    .footer-grid {
+        gap: 35px;
+    }
+
+    .footer-link,
+    .footer-copyright {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .question-section,
+    .footer-section {
+        padding: 60px 0;
+    }
+
+    .question-title {
+        font-size: 1.75rem;
+        margin-bottom: 32px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .question-form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+        gap: 15px;
     }
 
     .form-input,
     .form-textarea {
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        color: white;
-        padding: 15px 20px;
-        font-size: 16px;
-        border-radius: 0;
-        outline: none;
-        transition: border-color 0.3s, background-color 0.3s;
-        width: 100%;
-        box-sizing: border-box;
+        padding: 12px 16px;
+        font-size: 0.95rem;
     }
 
-    .form-input::placeholder,
-    .form-textarea::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+    .form-submit {
+        padding: 14px 20px;
+        font-size: 0.9rem;
     }
 
-    .form-input:focus,
-    .form-textarea:focus {
-        border-color: #5E17E6;
-        background-color: rgba(255, 255, 255, 0.15);
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: left;
     }
 
-    .form-textarea {
-        min-height: 150px;
-        resize: vertical;
-        font-family: Arial, sans-serif;
+    .footer-list li {
+        line-height: 2;
     }
 
-    .form-row {
-        display: flex;
-        gap: 20px;
+    .footer-link,
+    .footer-copyright {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-section {
+        padding: 50px 0 40px;
     }
 
-    .form-group {
-        flex: 1;
+    .footer-grid {
+        gap: 32px;
     }
 
-    .submit-button {
-        background-color: #5E17E6;
-        color: white;
-        border: none;
-        padding: 18px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 0;
-        transition: background-color 0.3s;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        width: 100%;
-        margin-top: 10px;
+    .footer-link,
+    .footer-copyright {
+        font-size: 0.9rem;
     }
-
-    .submit-button:hover {
-        background-color: #4a12c4;
-    }
-
-    .form-note {
-        font-size: 14px;
-        opacity: 0.8;
-        margin-top: 15px;
-        text-align: center;
-    }
-    a{
-        text-decoration: none;
-    }
+}

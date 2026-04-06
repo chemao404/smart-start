@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
-    """Расширенная модель пользователя"""
     USER_TYPES = (
         ('student', 'Ученик'),
         ('teacher', 'Преподаватель'),
@@ -32,13 +31,12 @@ class User(AbstractUser):
         verbose_name='Дата регистрации'
     )
 
-    # 👇 ДОБАВЬТЕ ЭТИ СТРОКИ
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
         blank=True,
         help_text='The groups this user belongs to.',
-        related_name='custom_user_set',  # ← изменено
+        related_name='custom_user_set',
         related_query_name='user',
     )
     user_permissions = models.ManyToManyField(
@@ -46,7 +44,7 @@ class User(AbstractUser):
         verbose_name='user permissions',
         blank=True,
         help_text='Specific permissions for this user.',
-        related_name='custom_user_set',  # ← изменено
+        related_name='custom_user_set',
         related_query_name='user',
     )
 
@@ -59,14 +57,12 @@ class User(AbstractUser):
 
 
 class TeacherProfile(models.Model):
-    """Профиль преподавателя - ВСЕ ПОЛЯ НЕОБЯЗАТЕЛЬНЫЕ"""
     STATUS_CHOICES = (
         ('pending', 'На рассмотрении'),
         ('approved', 'Одобрен'),
         ('rejected', 'Отклонен'),
     )
 
-    # Связь с пользователем (обязательное поле)
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -74,7 +70,6 @@ class TeacherProfile(models.Model):
         verbose_name='Пользователь'
     )
 
-    # Все остальные поля - НЕОБЯЗАТЕЛЬНЫЕ (можно оставить пустыми)
     specialization = models.CharField(
         max_length=200,
         verbose_name='Специализация',
@@ -146,7 +141,6 @@ class TeacherProfile(models.Model):
         verbose_name = 'Профиль преподавателя'
         verbose_name_plural = 'Профили преподавателей'
 class StudentProfile(models.Model):
-    """Профиль ученика - ВСЕ ПОЛЯ НЕОБЯЗАТЕЛЬНЫЕ"""
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -154,13 +148,12 @@ class StudentProfile(models.Model):
         verbose_name='Пользователь'
     )
 
-    # Все поля - НЕОБЯЗАТЕЛЬНЫЕ
     school = models.CharField(
         max_length=200,
         blank=True,
         null=True,
         verbose_name='Школа',
-        default=''  # значение по умолчанию
+        default=''
     )
 
     grade = models.IntegerField(
@@ -169,7 +162,6 @@ class StudentProfile(models.Model):
         verbose_name='Класс'
     )
 
-    # Связи (тоже необязательные)
     preferred_teachers = models.ManyToManyField(
         TeacherProfile,
         blank=True,
@@ -195,7 +187,6 @@ class StudentProfile(models.Model):
 
 
 class ParentProfile(models.Model):
-    """Профиль родителя - ВСЕ ПОЛЯ НЕОБЯЗАТЕЛЬНЫЕ"""
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -203,7 +194,6 @@ class ParentProfile(models.Model):
         verbose_name='Пользователь'
     )
 
-    # Все поля - НЕОБЯЗАТЕЛЬНЫЕ
     contact_phone = models.CharField(
         max_length=15,
         blank=True,
@@ -226,7 +216,6 @@ class ParentProfile(models.Model):
         verbose_name = 'Профиль родителя'
         verbose_name_plural = 'Профили родителей'
 class Application(models.Model):
-    """Заявка на обучение к преподавателю"""
     STATUS_CHOICES = (
         ('pending', 'Ожидает'),
         ('approved', 'Принята'),

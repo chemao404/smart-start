@@ -1,5 +1,9 @@
-from django.contrib import admin
 from django.urls import path
+from .views import *
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.conf import settings
+
 
 from main.views import *
 app_name = 'main'
@@ -12,7 +16,8 @@ urlpatterns = [
    path('news_list/<int:pk>/', NewsDetailView.as_view(), name='news_detail'),
    path('create/', NewsCreateView.as_view(), name='news_create'),
    path('<int:pk>/update/', NewsUpdateView.as_view(), name='news_update'),
-   path('<int:pk>/delete/', NewsDeleteView.as_view(), name='news_delete'),   path('dashboard', dashboard, name='dashboard'),
+   path('<int:pk>/delete/', NewsDeleteView.as_view(), name='news_delete'),
+   path('dashboard', dashboard, name='dashboard'),
 
    path('approve-teacher/<int:teacher_id>/', approve_teacher, name='approve_teacher'),
    path('teachers/<int:teacher_id>/apply/', create_application, name='create_application'),
@@ -20,4 +25,4 @@ urlpatterns = [
    path('teacher-applications/', teacher_applications, name='teacher_applications'),
    path('application/<int:application_id>/handle/', handle_application, name='handle_application'),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

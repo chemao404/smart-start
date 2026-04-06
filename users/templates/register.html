@@ -69,7 +69,6 @@
                 {% endif %}
             </div>
 
-            <!-- 2. ОБЩИЕ ПОЛЯ ДЛЯ ВСЕХ -->
             <div class="common-fields">
                 <h3>Общая информация</h3>
 
@@ -130,7 +129,6 @@
                 </div>
             </div>
 
-            <!-- 3. ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ ДЛЯ ПРЕПОДАВАТЕЛЯ -->
             <div id="teacher-fields" class="teacher-fields">
                 <h3>Дополнительные данные преподавателя <span class="required">*</span></h3>
                 <p class="help-text">Заполните информацию о вашем профессиональном опыте</p>
@@ -176,7 +174,6 @@
                 </div>
             </div>
 
-            <!-- 4. ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ ДЛЯ УЧЕНИКА -->
             <div id="student-fields" class="student-fields">
                 <h3>Дополнительные данные ученика</h3>
 
@@ -197,7 +194,6 @@
                 </div>
             </div>
 
-            <!-- 5. ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ ДЛЯ РОДИТЕЛЯ -->
             <div id="parent-fields" class="parent-fields">
                 <h3>Дополнительные данные родителя</h3>
 
@@ -228,17 +224,14 @@
 
 <script>
     function showFields(type) {
-        // Скрываем все блоки
         document.getElementById('teacher-fields').style.display = 'none';
         document.getElementById('student-fields').style.display = 'none';
         document.getElementById('parent-fields').style.display = 'none';
 
-        // Убираем required у всех полей
         document.querySelectorAll('[required]').forEach(field => {
             field.required = false;
         });
 
-        // Показываем нужный блок и добавляем required
         if (type === 'teacher') {
             document.getElementById('teacher-fields').style.display = 'block';
             document.querySelectorAll('#teacher-fields [required]').forEach(field => {
@@ -246,27 +239,17 @@
             });
         } else if (type === 'student') {
             document.getElementById('student-fields').style.display = 'block';
-            // Если у ученика есть обязательные поля, раскомментируйте:
-            // document.querySelectorAll('#student-fields [required]').forEach(field => {
-            //     field.required = true;
-            // });
         } else if (type === 'parent') {
             document.getElementById('parent-fields').style.display = 'block';
-            // Если у родителя есть обязательные поля, раскомментируйте:
-            // document.querySelectorAll('#parent-fields [required]').forEach(field => {
-            //     field.required = true;
-            // });
         }
     }
 
-    // При выборе радио-кнопки
     document.querySelectorAll('input[name="user_type"]').forEach(radio => {
         radio.addEventListener('change', function() {
             showFields(this.value);
         });
     });
 
-    // Перед отправкой формы
     document.querySelector('form').addEventListener('submit', function(e) {
         document.querySelectorAll('.teacher-fields, .student-fields, .parent-fields').forEach(block => {
             if (block.style.display === 'none') {
@@ -277,7 +260,6 @@
         });
     });
 
-    // При загрузке страницы
     window.onload = function() {
         const selectedRadio = document.querySelector('input[name="user_type"]:checked');
         if (selectedRadio) {

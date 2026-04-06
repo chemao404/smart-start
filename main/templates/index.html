@@ -1,291 +1,516 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>dfhryj</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Smart Start</title>
+    <!-- Подключение современного геометрического гротеска Inter + fallback -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- Подключение Swiper.js для слайдера -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
-<header>
-    <a href="{% url 'main:index'%}"><img src="{% static 'img/логотип смарт.png' %}" alt="Логотип SmartStart"></a>
+    <section class="hero">
+        <div class="topo-texture"></div>
+        <div class="topo-overlay"></div>
+        <div class="glow-orange"></div>
+        <div class="glow-purple"></div>
+        <div class="grid-overlay"></div>
+        <div class="tech-glow-line"></div>
 
-        <ul>
-            <li><a href="{% url 'main:teacher_list' %}">преподаватели</a></li>
-            <li><a href="{% url 'main:contact' %}">контакты</a></li>
-            <li><a href="{% url 'main:news_list' %}">новости</a></li>
-        </ul>
-
-        <button><a href="{% url 'main:dashboard' %}">Подать заявку</a></button>
-
-    </header>
+        <div class="hero-container">
+            <header class="header">
+                <div style="display: flex; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap;">
+                    <div class="logo-area">
+                        <div class="logo-text">
+                            <span>SMART</span>
+                            <span>START</span>
+                        </div>
+                        <div class="logo-divider"></div>
+                        <div class="logo-icon">⚡</div>
+                    </div>
+                    <div class="nav-vertical">
+                        <a href="{% url 'main:news_list' %}">НОВОСТИ</a>
+                        <a href="{% url 'main:contact' %}">КОНТАКТЫ</a>
+                        <a href="{% url 'main:teacher_list' %}">ПРЕПОДАВАТЕЛИ</a>
+                    </div>
+                </div>
+                <button class="btn-outline">ПОДАТЬ ЗАЯВКУ</button>
+            </header>
 {% block content %}
-<div class="hero-banner">
-    <img src="{% static 'img/баннер глав.png' %}" alt="Главный баннер">
-    <div class="hero-content">
-        <h1 class="hero-title">УМНЫЙ СТАРТ В ОБУЧЕНИИ</h1>
-        <p class="hero-subtitle">НАПИШИТЕ НАМ!</p>
-        <div class="hero-buttons">
-            <button class="hero-button">ЗАПИСАТЬСЯ</button>
+            <!-- Основной контент (Hero Content) -->
+            <div class="hero-main">
+                <div class="hero-text">
+                    <h1>УМНЫЙ СТАРТ В ОБУЧЕНИИ</h1>
+                    <div class="hero-sub">ЗАПИШИТЕСЬ НА ПРОБНОЕ ЗАНЯТИЕ</div>
+                </div>
+                <div class="hero-cta">
+                    <button class="btn-primary">ЗАПИСАТЬСЯ</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<main>
+    </section>
+
     <article>
-<div class="directions-section">
-    <h2 class="directions-title">НАПРАВЛЕНИЯ</h2>
+        <div class="container">
+            <!-- Секция "НАПРАВЛЕНИЯ" с табами -->
+            <div class="section">
+                <h2 class="section-title dark">НАПРАВЛЕНИЯ</h2>
 
-    <div class="directions-grid">
-        <!-- 1-4 класс -->
-        <div class="direction-card">
-            <div class="direction-header">
-                <span class="direction-number">1</span>
-                <span>1-4 КЛАСС</span>
-            </div>
-            <p class="direction-description">
-                Подготовка младших школьников: развитие основных навыков, адаптация к учебному процессу, формирование интереса к обучению.
-            </p>
-            <ul class="direction-list">
-                <li>Развитие логического мышления</li>
-                <li>Основы математики и чтения</li>
-                <li>Подготовка к контрольным</li>
-                <li>Индивидуальный подход</li>
-            </ul>
-        </div>
+                <div class="tabs-wrapper">
+                    <!-- Таб-меню (горизонтальный список) -->
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" data-tab="tab1">1-4 КЛАСС</button>
+                        <button class="tab-btn" data-tab="tab2">5-8 КЛАСС</button>
+                        <button class="tab-btn" data-tab="tab3">9-11 КЛАСС</button>
+                        <button class="tab-btn" data-tab="tab4">ПСИХОЛОГ</button>
+                    </div>
 
-        <!-- 5-8 класс -->
-        <div class="direction-card">
-            <div class="direction-header">
-                <span class="direction-number">2</span>
-                <span>5-8 КЛАСС</span>
-            </div>
-            <p class="direction-description">
-                Углубленная подготовка по основным предметам, помощь с домашними заданиями, развитие самостоятельности в учебе.
-            </p>
-            <ul class="direction-list">
-                <li>Математика и алгебра</li>
-                <li>Русский язык и литература</li>
-                <li>Иностранные языки</li>
-                <li>Естественные науки</li>
-            </ul>
-        </div>
+                    <!-- Контент для вкладки 1-4 КЛАСС (карточки по сетке 4 колонки) -->
+                    <div class="tab-content active" id="tab1">
+                        <div class="program-grid">
+                            <div class="program-card">
+                                <h3>Математика Logic</h3>
+                                <p>Игровая математика, развитие логического мышления, основы алгоритмики. Занятия в мини-группах до 8 человек.</p>
+                                <div class="program-feature">→ 2 раза в неделю</div>
+                            </div>
+                            <div class="program-card">
+                                <h3>Английский Start</h3>
+                                <p>Английский язык через сторителлинг, игры и творческие проекты. Формирование разговорных навыков.</p>
+                                <div class="program-feature">→ 3 раза в неделю</div>
+                            </div>
+                            <div class="program-card">
+                                <h3>Scratch-программирование</h3>
+                                <p>Создание игр и мультфильмов в визуальной среде. Развитие креативности и IT-мышления.</p>
+                                <div class="program-feature">→ 1 раз в неделю</div>
+                            </div>
+                            <div class="program-card">
+                                <h3>Soft Skills Kids</h3>
+                                <p>Коммуникация, командная работа, эмоциональный интеллект в игровой форме.</p>
+                                <div class="program-feature">→ 1 раз в неделю</div>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- 9-11 класс -->
-        <div class="direction-card">
-            <div class="direction-header">
-                <span class="direction-number">3</span>
-                <span>9-11 КЛАСС</span>
-            </div>
-            <p class="direction-description">
-                Подготовка к ОГЭ и ЕГЭ, помощь в выборе профессии, интенсивная подготовка к поступлению в вузы.
-            </p>
-            <ul class="direction-list">
-                <li>Подготовка к ОГЭ/ЕГЭ</li>
-                <li>Профориентация</li>
-                <li>Углубленные предметы</li>
-                <li>Пробные экзамены</li>
-            </ul>
-        </div>
+                    <!-- Контент для вкладки 5-8 КЛАСС (текст в 3 колонки по сетке) -->
+                    <div class="tab-content" id="tab2">
+                        <div class="multi-col-content">
+                            <div class="col-text">
+                                <h4>🔬 STEM-лаборатория</h4>
+                                <p>Физика, химия и инженерия в проектной деятельности. Углубленное изучение через эксперименты и хакатоны.</p>
+                                <p>Работа над реальными проектами: создание прототипов, основы схемотехники.</p>
+                            </div>
+                            <div class="col-text">
+                                <h4>💻 Python для подростков</h4>
+                                <p>Программирование на Python с нуля: от основ до создания игр и веб-приложений. Алгоритмы, структуры данных.</p>
+                                <p>Подготовка к олимпиадам по программированию и IT-хакатонам.</p>
+                            </div>
+                            <div class="col-text">
+                                <h4>📊 Предпрофильная подготовка</h4>
+                                <p>Математика, русский язык, английский — углубленный формат. Подготовка к вступительным экзаменам в лицеи и гимназии.</p>
+                                <p>Индивидуальные треки обучения с наставниками.</p>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- Психолог -->
-        <div class="direction-card">
-            <div class="direction-header">
-                <span class="direction-number">4</span>
-                <span>ПСИХОЛОГ</span>
+                    <!-- Контент для вкладки 9-11 КЛАСС (текст с акцентом на профориентацию) -->
+                    <div class="tab-content" id="tab3">
+                        <div class="multi-col-content">
+                            <div class="col-text">
+                                <h4>🎯 Профориентация + ЕГЭ</h4>
+                                <p>Интенсивная подготовка к ЕГЭ по математике, информатике, физике и русскому языку. Авторские методики и разбор реальных заданий.</p>
+                                <p>Персональный трек подготовки к выбранному IT-вузу.</p>
+                            </div>
+                            <div class="col-text">
+                                <h4>🤖 Data Science & AI</h4>
+                                <p>Введение в анализ данных, машинное обучение и нейросети. Проектная работа с реальными датасетами.</p>
+                                <p>Основы Python, pandas, matplotlib, знакомство с ИИ-библиотеками.</p>
+                            </div>
+                            <div class="col-text">
+                                <h4>🏆 Олимпиадная математика</h4>
+                                <p>Углубленная подготовка к перечневым олимпиадам, разбор задач повышенной сложности, работа с олимпиадными тренерами.</p>
+                                <p>Поддержка на всех этапах: от отборочных туров до финалов.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Контент для вкладки ПСИХОЛОГ (текст) -->
+                    <div class="tab-content" id="tab4">
+                        <div class="multi-col-content">
+                            <div class="col-text">
+                                <h4>👥 Индивидуальные консультации</h4>
+                                <p>Помощь в адаптации к школе, работа с тревожностью, развитие эмоционального интеллекта.</p>
+                                <p>Консультации для родителей по вопросам воспитания и детско-родительских отношений.</p>
+                            </div>
+                            <div class="col-text">
+                                <h4>🧠 Тренинги Soft Skills</h4>
+                                <p>Коммуникативные навыки, управление стрессом, мотивация и тайм-менеджмент для подростков.</p>
+                                <p>Групповые занятия в формате тренингов и интерактивных игр.</p>
+                            </div>
+                            <div class="col-text">
+                                <h4>🎓 Профориентация</h4>
+                                <p>Психологическое тестирование, профориентационные игры, консультации по выбору будущей профессии.</p>
+                                <p>Помощь в построении образовательной траектории с учетом личностных особенностей.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="direction-description">
-                Психологическая поддержка школьников, помощь с адаптацией, стресс-менеджмент, развитие эмоционального интеллекта.
-            </p>
-            <ul class="direction-list">
-                <li>Консультации психолога</li>
-                <li>Помощь с адаптацией</li>
-                <li>Работа со стрессом</li>
-                <li>Развитие мотивации</li>
-            </ul>
         </div>
-    </div>
-</div>
     </article>
-    <article>
-<div class="teachers-section">
-    <div class="teachers-container">
-        <h2 class="teachers-title">
-            Преподаватели школы <span class="highlight-red">London Express</span> в Чите
-        </h2>
 
-        <p class="teachers-subtitle">
-            Все преподаватели London Express имеют высшее образование, российские и международные сертификаты.
-        </p>
-
-        <div class="teachers-grid">
-            <!-- Преподаватель 1 -->
-            <div class="teacher-card">
-                <div class="teacher-photo photo-1"></div>
-                <div class="teacher-name">Преподаватель 1</div>
-                <div class="teacher-description">
-                    Опытный педагог с многолетним стажем работы
-                </div>
-                <div class="teacher-certificates">
-                    Сертификаты: TEFL, CELTA
-                </div>
-                <button class="teacher-button">Записаться на урок</button>
-            </div>
-
-            <!-- Преподаватель 2 -->
-            <div class="teacher-card">
-                <div class="teacher-photo photo-2"></div>
-                <div class="teacher-name">Преподаватель 2</div>
-                <div class="teacher-description">
-                    Специалист по современным методикам обучения
-                </div>
-                <div class="teacher-certificates">
-                    Сертификаты: TESOL, DELTA
-                </div>
-                <button class="teacher-button">Записаться на урок</button>
-            </div>
-
-            <!-- Преподаватель 3 -->
-            <div class="teacher-card">
-                <div class="teacher-photo photo-3"></div>
-                <div class="teacher-name">Преподаватель 3</div>
-                <div class="teacher-description">
-                    Эксперт в области языковой подготовки
-                </div>
-                <div class="teacher-certificates">
-                    Сертификаты: IELTS, TOEFL
-                </div>
-                <button class="teacher-button">Записаться на урок</button>
-            </div>
-
-            <!-- Преподаватель 4 -->
-            <div class="teacher-card">
-                <div class="teacher-photo photo-4"></div>
-                <div class="teacher-name">Преподаватель 4</div>
-                <div class="teacher-description">
-                    Профессионал в работе с разными возрастными группами
-                </div>
-                <div class="teacher-certificates">
-                    Сертификаты: Cambridge, Trinity
-                </div>
-                <button class="teacher-button">Записаться на урок</button>
+    <article class="about-section">
+        <div class="about-container">
+            <h2 class="about-title">О НАШЕМ ЦЕНТРЕ</h2>
+            <div class="about-content">
+                <p class="about-text">
+                    Smart Start — это образовательный центр нового поколения, где передовые IT-методики сочетаются с классическим академическим подходом.
+                    Мы создаем среду, в которой каждый ребенок раскрывает свой потенциал через проектную деятельность, наставничество и индивидуальный образовательный маршрут.
+                    Наши преподаватели — действующие эксперты в сфере технологий, педагоги с многолетним опытом и практикующие психологи.
+                </p>
+                <p class="about-text">
+                    С 2018 года более 2500 выпускников поступили в ведущие IT-вузы, лицеи и школы Москвы и Санкт-Петербурга.
+                    Мы верим, что качественное образование должно быть доступным, современным и вдохновляющим.
+                    Поэтому каждый курс включает не только теорию, но и реальные проекты, хакатоны, встречи с профессионалами индустрии.
+                    Наши программы разработаны с учетом возрастных особенностей и мировых образовательных стандартов STEM + Arts (STEAM).
+                </p>
             </div>
         </div>
-    </div>
-</div>    </article>
-    <article>
-<div class="about-section">
-    <div class="about-container">
-        <h2 class="about-title">О НАШЕМ ЦЕНТРЕ</h2>
-
-        <div class="about-content">
-            <p>Мы организовали дружескую академическую среду, где каждый ученик может раскрыть свой потенциал. Наш центр объединяет лучших специалистов в области образования, создающих комфортную атмосферу для эффективного обучения.</p>
-
-            <p>Мы разработали занятия для детей, чтобы раскрыть их способности и выявить сильные стороны каждого, подготовить к выпускным экзаменам на высокий балл и помочь поступить в ВУЗ мечты.</p>
-
-   </article>
-
-    <article>
-<div class="question-section">
-    <!-- Фоновое изображение -->
-    <img src="{% static 'img/заявка.png' %}" alt="" class="background-image">
-
-    <div class="question-container">
-        <h2 class="question-title">ЗАДАЙТЕ НАМ ВОПРОС</h2>
-
-        <form class="question-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="text"
-                           class="form-input"
-                           placeholder="Ваше имя"
-                           required>
-                </div>
-                <div class="form-group">
-                    <input type="tel"
-                           class="form-input"
-                           placeholder="Телефон"
-                           required>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="email"
-                           class="form-input"
-                           placeholder="Email"
-                           required>
-                </div>
-                <div class="form-group">
-                    <input type="text"
-                           class="form-input"
-                           placeholder="Тема вопроса">
-                </div>
-            </div>
-
-            <textarea class="form-textarea"
-                      placeholder="Ваш вопрос..."
-                      required></textarea>
-
-            <button type="submit" class="submit-button">
-                ОТПРАВИТЬ
-            </button>
-
-            <p class="form-note">
-                Нажимая кнопку "ОТПРАВИТЬ", вы соглашаетесь с обработкой персональных данных
-            </p>
-        </form>
-    </div>
-</div>
     </article>
-</main>
+
+    <!-- Секция "ПРЕИМУЩЕСТВА" -->
+    <article class="advantages-section">
+        <div class="advantages-container">
+            <h2 class="advantages-title">ПРЕИМУЩЕСТВА</h2>
+            <div class="advantages-grid">
+                <!-- Левая колонка с изображением -->
+                <div class="advantages-image-col">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23F5F5F5'/%3E%3Ctext x='50%25' y='45%25' font-size='24' font-family='Arial' fill='%235E17E6' text-anchor='middle' font-weight='bold'%3EREADY?%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='32' font-family='Arial' fill='%235E17E6' text-anchor='middle' font-weight='bold'%3ESTUDY GO!%3C/text%3E%3C/svg%3E"
+                         alt="Ready? Study Go!"
+                         class="advantages-image">
+                </div>
+
+                <!-- Правая колонка с блоками преимуществ -->
+                <div class="advantages-text-col">
+                    <div class="advantage-card">
+                        <h3 class="advantage-card-title">Индивидуальный подход</h3>
+                        <p class="advantage-card-text">
+                            Каждому ученику составляется персональный план обучения с учетом уровня подготовки,
+                            целей и темпа усвоения материала. Мы гарантируем внимание к каждому студенту.
+                        </p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3 class="advantage-card-title">Современные методики</h3>
+                        <p class="advantage-card-text">
+                            Используем передовые образовательные технологии, проектный подход и реальные кейсы
+                            из IT-индустрии. Наши выпускники получают актуальные знания, востребованные на рынке.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Секция "ПРЕПОДАВАТЕЛИ" -->
+    <article class="teachers-section">
+        <div class="teachers-container">
+            <h2 class="teachers-title">ПРЕПОДАВАТЕЛИ</h2>
+            <div class="teachers-grid">
+                <!-- Карточка 1 -->
+                <div class="teacher-card">
+                    <div class="teacher-image-wrapper">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👨‍🏫%3C/text%3E%3C/svg%3E"
+                               alt="Александр Смирнов"
+                               class="teacher-photo">
+                        <div class="teacher-info">
+                            <span class="teacher-name">АЛЕКСАНДР СМИРНОВ</span>
+                            <span class="teacher-subject">МАТЕМАТИКА</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка 2 -->
+                <div class="teacher-card">
+                    <div class="teacher-image-wrapper">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👩‍💻%3C/text%3E%3C/svg%3E"
+                               alt="Елена Ковалева"
+                               class="teacher-photo">
+                        <div class="teacher-info">
+                            <span class="teacher-name">ЕЛЕНА КОВАЛЕВА</span>
+                            <span class="teacher-subject">ПРОГРАММИРОВАНИЕ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка 3 -->
+                <div class="teacher-card">
+                    <div class="teacher-image-wrapper">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👩‍🎓%3C/text%3E%3C/svg%3E"
+                               alt="Мария Волкова"
+                               class="teacher-photo">
+                        <div class="teacher-info">
+                            <span class="teacher-name">МАРИЯ ВОЛКОВА</span>
+                            <span class="teacher-subject">ФИЗИКА</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка 4 -->
+                <div class="teacher-card">
+                    <div class="teacher-image-wrapper">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👨‍🔬%3C/text%3E%3C/svg%3E"
+                               alt="Дмитрий Новиков"
+                               class="teacher-photo">
+                        <div class="teacher-info">
+                            <span class="teacher-name">ДМИТРИЙ НОВИКОВ</span>
+                            <span class="teacher-subject">ИНФОРМАТИКА</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка 5 -->
+                <div class="teacher-card">
+                    <div class="teacher-image-wrapper">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E🧠%3C/text%3E%3C/svg%3E"
+                               alt="Анна Морозова"
+                               class="teacher-photo">
+                        <div class="teacher-info">
+                            <span class="teacher-name">АННА МОРОЗОВА</span>
+                            <span class="teacher-subject">ПСИХОЛОГИЯ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Секция "ОТЗЫВЫ" со слайдером -->
+    <article class="reviews-section">
+        <div class="reviews-container">
+            <h2 class="reviews-title">ОТЗЫВЫ</h2>
+
+            <div class="slider-wrapper">
+                <div class="swiper reviews-swiper">
+                    <div class="swiper-wrapper">
+                        <!-- Слайд 1 -->
+                        <div class="swiper-slide">
+                            <div class="review-card">
+                                <div class="review-image-wrapper">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👩‍🎓%3C/text%3E%3C/svg%3E"
+                                         alt="Анна Кузнецова"
+                                         class="review-photo">
+                                    <div class="review-info">
+                                        <span class="review-name">АННА КУЗНЕЦОВА</span>
+                                        <span class="review-text">Отличный центр! Ребенок ходит с удовольствием, преподаватели настоящие профессионалы. Успеваемость в школе значительно выросла.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Слайд 2 -->
+                        <div class="swiper-slide">
+                            <div class="review-card">
+                                <div class="review-image-wrapper">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👨‍💼%3C/text%3E%3C/svg%3E"
+                                         alt="Михаил Соколов"
+                                         class="review-photo">
+                                    <div class="review-info">
+                                        <span class="review-name">МИХАИЛ СОКОЛОВ</span>
+                                        <span class="review-text">Сын поступил в IT-лицей после подготовки в Smart Start. Огромное спасибо команде за индивидуальный подход и качественные знания!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Слайд 3 -->
+                        <div class="swiper-slide">
+                            <div class="review-card">
+                                <div class="review-image-wrapper">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👩‍💼%3C/text%3E%3C/svg%3E"
+                                         alt="Елена Воробьева"
+                                         class="review-photo">
+                                    <div class="review-info">
+                                        <span class="review-name">ЕЛЕНА ВОРОБЬЕВА</span>
+                                        <span class="review-text">Замечательные педагоги, уютная атмосфера. Дочь с нетерпением ждет каждого занятия. Спасибо за вашу работу!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Слайд 4 (дополнительный) -->
+                        <div class="swiper-slide">
+                            <div class="review-card">
+                                <div class="review-image-wrapper">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E🧑‍🏫%3C/text%3E%3C/svg%3E"
+                                         alt="Дмитрий Волков"
+                                         class="review-photo">
+                                    <div class="review-info">
+                                        <span class="review-name">ДМИТРИЙ ВОЛКОВ</span>
+                                        <span class="review-text">Отличные курсы программирования! Преподаватели объясняют сложные темы простым языком. Рекомендую всем родителям.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Слайд 5 -->
+                        <div class="swiper-slide">
+                            <div class="review-card">
+                                <div class="review-image-wrapper">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👩‍🎨%3C/text%3E%3C/svg%3E"
+                                         alt="Светлана Морозова"
+                                         class="review-photo">
+                                    <div class="review-info">
+                                        <span class="review-name">СВЕТЛАНА МОРОЗОВА</span>
+                                        <span class="review-text">Благодаря занятиям с психологом ребенок стал увереннее в себе. Огромное спасибо за чуткость и профессионализм!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кастомные стрелки навигации -->
+                <div class="swiper-button-prev reviews-prev"></div>
+                <div class="swiper-button-next reviews-next"></div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Секция "ЗАДАЙТЕ ВОПРОС" с формой -->
+    <article class="question-section">
+        <div class="question-overlay"></div>
+        <div class="question-container">
+            <h2 class="question-title">ЗАДАЙТЕ НАМ ВОПРОС</h2>
+
+            <form class="question-form" id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Ваше имя" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" placeholder="Телефон" required class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="5" placeholder="Ваш вопрос" required class="form-textarea"></textarea>
+                </div>
+                <button type="submit" class="form-submit">ОТПРАВИТЬ</button>
+            </form>
+        </div>
+    </article>
 {% endblock %}
 
-<footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>О компании</h3>
-                <ul class="footer-links">
-                    <li><a href="#">О нас</a></li>
-                    <li><a href="#">Команда</a></li>
-                    <li><a href="#">Вакансии</a></li>
-                    <li><a href="#">Отзывы</a></li>
-                </ul>
-            </div>
+    <!-- Секция "ФУТЕР" -->
+    <footer class="footer-section">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <!-- Колонка 1: Навигация -->
+                <div class="footer-col">
+                    <ul class="footer-list">
+                        <li><a href="#" class="footer-link">Главная</a></li>
+                        <li><a href="#" class="footer-link">Новости</a></li>
+                        <li><a href="#" class="footer-link">Преподаватели</a></li>
+                        <li><a href="#" class="footer-link">О центре</a></li>
+                    </ul>
+                </div>
 
-            <div class="footer-section">
-                <h3>Курсы</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Программирование</a></li>
-                    <li><a href="#">Дизайн</a></li>
-                    <li><a href="#">Маркетинг</a></li>
-                    <li><a href="#">Аналитика</a></li>
-                </ul>
-            </div>
+                <!-- Колонка 2: Программы -->
+                <div class="footer-col">
+                    <ul class="footer-list">
+                        <li><a href="#" class="footer-link">1-4 класс (Начальная школа)</a></li>
+                        <li><a href="#" class="footer-link">5-8 класс (Средняя школа)</a></li>
+                        <li><a href="#" class="footer-link">9-11 класс (Подготовка к ЕГЭ)</a></li>
+                        <li><a href="#" class="footer-link">Психологическая поддержка</a></li>
+                    </ul>
+                </div>
 
-            <div class="footer-section">
-                <h3>Поддержка</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Помощь</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Контакты</a></li>
-                    <li><a href="#">Политика конфиденциальности</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Контакты</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Email: info@smartstart.ru</a></li>
-                    <li><a href="#">Телефон: +7 (999) 123-45-67</a></li>
-                    <li><a href="#">Адрес: Москва, ул. Примерная, 10</a></li>
-                    <li><a href="#">Соцсети</a></li>
-                </ul>
+                <!-- Колонка 3: Связь и документы -->
+                <div class="footer-col">
+                    <ul class="footer-list">
+                        <li><a href="#" class="footer-link">Подать заявку</a></li>
+                        <li><a href="#" class="footer-link">Telegram / WhatsApp</a></li>
+                        <li><a href="#" class="footer-link">Политика конфиденциальности</a></li>
+                        <li class="footer-copyright">© 2024 Smart Start</li>
+                    </ul>
+                </div>
             </div>
         </div>
+    </footer>
 
-        <div class="footer-bottom">
-            <p>&copy; 2024 SmartStart. Все права защищены.</p>
-        </div>
-    </footer></body>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Инициализация Swiper слайдера
+        document.addEventListener('DOMContentLoaded', function() {
+            const swiper = new Swiper('.reviews-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 24,
+                navigation: {
+                    nextEl: '.reviews-next',
+                    prevEl: '.reviews-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 24,
+                    },
+                },
+                loop: true,
+                speed: 400,
+                grabCursor: true,
+            });
+        });
+
+        // Обработка отправки формы
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Собираем данные формы
+                const formData = new FormData(contactForm);
+                const data = {
+                    name: formData.get('name'),
+                    phone: formData.get('phone'),
+                    message: formData.get('message')
+                };
+
+                // Здесь можно добавить отправку данных на сервер
+                console.log('Отправленные данные:', data);
+
+                // Показываем сообщение об успешной отправке
+                alert('Спасибо! Ваш вопрос отправлен. Мы свяжемся с вами в ближайшее время.');
+
+                // Очищаем форму
+                contactForm.reset();
+            });
+        }
+
+        // Логика работы табов
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+
+                // Убираем активный класс у всех кнопок и контента
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Добавляем активный класс текущей кнопке и соответствующему контенту
+                btn.classList.add('active');
+                const activeContent = document.getElementById(tabId);
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
 </html>

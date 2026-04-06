@@ -4,7 +4,6 @@ from .models import *
 
 
 class CustomUserAdmin(UserAdmin):
-    """Кастомная админка для пользователей"""
     list_display = ('username', 'email', 'first_name', 'last_name', 'user_type', 'is_active')  # ← role -> user_type
     list_filter = ('user_type', 'is_active', 'is_staff')  # ← role -> user_type
     search_fields = ('username', 'email', 'first_name', 'last_name')

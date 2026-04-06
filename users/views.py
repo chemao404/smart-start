@@ -16,9 +16,6 @@ from .forms import (
 
 
 def register(request):
-    """Регистрация нового пользователя"""
-
-    # 👇 ЭТО САМОЕ ВАЖНОЕ - для GET запроса передаем ВСЕ формы
     if request.method == 'GET':
         user_form = UserRegistrationForm()
         teacher_form = TeacherRegistrationForm()
@@ -32,19 +29,16 @@ def register(request):
             'parent_form': parent_form,
         })
 
-    # 👇 ДЛЯ POST ЗАПРОСА
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
 
         if user_form.is_valid():
-            # Создаем пользователя
             user = user_form.save(commit=False)
             user.user_type = user_form.cleaned_data['user_type']
             user.save()
 
             user_type = user_form.cleaned_data['user_type']
 
-            # Преподаватель
             if user_type == 'teacher':
                 teacher_form = TeacherRegistrationForm(request.POST, request.FILES)
                 if teacher_form.is_valid():
@@ -66,7 +60,6 @@ def register(request):
                         'user_type': user_type
                     })
 
-            # Ученик
             elif user_type == 'student':
                 student_form = StudentRegistrationForm(request.POST)
                 if student_form.is_valid():
@@ -86,7 +79,6 @@ def register(request):
                         'user_type': user_type
                     })
 
-            # Родитель
             elif user_type == 'parent':
                 parent_form = ParentRegistrationForm(request.POST)
                 if parent_form.is_valid():
@@ -106,7 +98,6 @@ def register(request):
                         'user_type': user_type
                     })
 
-        # Если user_form не валидна
         return render(request, 'register.html', {
             'user_form': user_form,
             'teacher_form': TeacherRegistrationForm(),
@@ -114,7 +105,6 @@ def register(request):
             'parent_form': ParentRegistrationForm(),
         })
 def user_login(request):
-    """Авторизация пользователя"""
     if request.method == 'POST':
         form = CustomLoginForm(request, data=request.POST)
         if form.is_valid():
@@ -137,7 +127,5 @@ def user_login(request):
 
 
 def user_logout(request):
-    """Выход из системы"""
     logout(request)
-    messages.success(request, 'Вы успешно вышли из системы')
-    return redirect('users:login')  # ← ВАЖНО: идем обратно в users на логин
+    return redirect('users:login')

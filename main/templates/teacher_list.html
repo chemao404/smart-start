@@ -1,49 +1,61 @@
 {% extends 'index.html' %}
 
 {% block content %}
-{% if user_type == 'admin' or user.is_superuser %}
-    <table>
-        <thead>
-            <tr>
-                <th>ФИО</th>
-                <th>Специализация</th>
-                <th>Статус</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for teacher in teachers %}
-            <tr>
-                <td>{{ teacher.user.get_full_name }}</td>
-                <td>{{ teacher.specialization }}</td>
-                <td>
-                    {% if teacher.status == 'pending' %}⏳ На рассмотрении
-                    {% elif teacher.status == 'approved' %}✅ Одобрен
-                    {% elif teacher.status == 'rejected' %}❌ Отклонен
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{% url 'main:approve_teacher' teacher.id %}">Рассмотреть</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<style>
 
-<!-- ДЛЯ УЧЕНИКОВ - карточки и кнопка "Записаться" -->
-{% else %}
-    <div class="teachers-grid">
-        {% for teacher in teachers %}
-        <div class="teacher-card">
-            <h3>{{ teacher.user.get_full_name }}</h3>
-            <p><strong>Специализация:</strong> {{ teacher.specialization }}</p>
-            <p><strong>Опыт:</strong> {{ teacher.experience|truncatechars:100 }}</p>
-            <p><strong>Образование:</strong> {{ teacher.education|truncatechars:100 }}</p>
-            <a href="{% url 'main:create_application' teacher.id %}" class="btn">
-                Записаться
-            </a>
+</style>
+
+<div class="list-wrap">
+    {% if user_type == 'admin' or user.is_superuser %}
+        <h2>Управление преподавателями</h2>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Специализация</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher.user.get_full_name }}</td>
+                    <td>{{ teacher.specialization }}</td>
+                    <td>
+                        <span class="status-badge-list
+                            {% if teacher.status == 'pending' %}status-badge-pending
+                            {% elif teacher.status == 'approved' %}status-badge-approved
+                            {% elif teacher.status == 'rejected' %}status-badge-rejected{% endif %}">
+                            {% if teacher.status == 'pending' %}⏳ На рассмотрении
+                            {% elif teacher.status == 'approved' %}✅ Одобрен
+                            {% elif teacher.status == 'rejected' %}❌ Отклонен
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'main:approve_teacher' teacher.id %}" class="action-link">Рассмотреть</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <h2>Наши преподаватели</h2>
+        <div class="teachers-grid">
+            {% for teacher in teachers %}
+            <div class="teacher-card-list">
+                <h3>{{ teacher.user.get_full_name }}</h3>
+                <p><strong>Специализация:</strong> {{ teacher.specialization }}</p>
+                <p><strong>Опыт:</strong> {{ teacher.experience|truncatechars:100 }}</p>
+                <p><strong>Образование:</strong> {{ teacher.education|truncatechars:100 }}</p>
+                <a href="{% url 'main:create_application' teacher.id %}" class="enroll-btn">
+                    Записаться
+                </a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-{% endif %}
+    {% endif %}
+</div>
 {% endblock %}

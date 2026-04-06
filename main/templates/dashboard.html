@@ -71,7 +71,9 @@
                 <p><strong>Контактный телефон:</strong> {{ profile.contact_phone }}</p>
                 <p><strong>Альтернативный email:</strong> {{ profile.alternative_email }}</p>
             {% endif %}
-                                    <p><a href="{% url 'main:student_applications' %}">📋 Управление преподавателями</a></p>
+        {% if user.user_type == 'student' %}
+            <p><a href="{% url 'main:student_applications' %}">📋 Управление</a></p>
+        {% endif %}
 
         </div>
 
