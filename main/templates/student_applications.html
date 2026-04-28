@@ -5,7 +5,7 @@
     <title>Мои заявки</title>
 
 </head>
-<body>
+    <div class="card-all-in">
     <div class="container">
         <h1>Мои заявки к преподавателям</h1>
 
@@ -42,5 +42,6 @@
         {% endfor %}
 
         <p><a href="{% url 'main:teacher_list' %}">← Найти преподавателей</a></p>
+    </div>
     </div>
 {% endblock %}

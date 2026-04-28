@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+    <div class="card-all-in">
 
 <div class="news-wrap">
     <h1 class="news-title">Новости</h1>
@@ -12,7 +13,7 @@
         <div class="news-item">
             <h2><a href="{% url 'main:news_detail' new.pk %}">{{ new.title }}</a></h2>
             <div class="news-date">📅 {{ new.pub_date }}</div>
-
+            <img src="{{ new.image }}" alt="" width="30%">
             <div class="news-text">{{ new.text|truncatechars:200 }}</div>
     {% if user.is_superuser%}
             <div class="news-actions">
@@ -29,4 +30,5 @@
 
 
 </div>
+    </div>
 {% endblock %}

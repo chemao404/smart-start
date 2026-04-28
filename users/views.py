@@ -1,18 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from .forms import (
-    UserRegistrationForm, TeacherRegistrationForm,
-    StudentRegistrationForm, ParentRegistrationForm, CustomLoginForm
-)
+from .forms import UserRegistrationForm, TeacherRegistrationForm,StudentRegistrationForm, ParentRegistrationForm, CustomLoginForm
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
-from .forms import (
-    UserRegistrationForm, TeacherRegistrationForm,
-    StudentRegistrationForm, ParentRegistrationForm
-)
+from .forms import UserRegistrationForm, TeacherRegistrationForm,StudentRegistrationForm, ParentRegistrationForm
+
 
 
 def register(request):
@@ -46,8 +41,6 @@ def register(request):
                     teacher_profile.user = user
                     teacher_profile.status = 'pending'
                     teacher_profile.save()
-                    messages.success(request,
-                                     'Регистрация преподавателя завершена. Ожидайте подтверждения администратора.')
                     login(request, user)
                     return redirect('main:dashboard')
                 else:
@@ -66,7 +59,6 @@ def register(request):
                     student_profile = student_form.save(commit=False)
                     student_profile.user = user
                     student_profile.save()
-                    messages.success(request, 'Регистрация ученика успешно завершена!')
                     login(request, user)
                     return redirect('main:dashboard')
                 else:
@@ -85,7 +77,6 @@ def register(request):
                     parent_profile = parent_form.save(commit=False)
                     parent_profile.user = user
                     parent_profile.save()
-                    messages.success(request, 'Регистрация родителя успешно завершена!')
                     login(request, user)
                     return redirect('main:dashboard')
                 else:
@@ -114,8 +105,7 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                messages.success(request, f'Добро пожаловать, {user.username}!')
-                return redirect('main:dashboard')  # ← ВАЖНО: идем в main приложение
+                return redirect('main:dashboard')
             else:
                 messages.error(request, 'Неверное имя пользователя или пароль')
         else:

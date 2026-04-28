@@ -17,7 +17,7 @@
                       text-decoration: none; border-radius: 3px; }
     </style>
 </head>
-<body>
+    <div class="card-all-in">
     <div class="container">
         <div class="header">
             <h1>Личный кабинет</h1>
@@ -56,7 +56,7 @@
                 {% if profile.review_comment %}
                     <p><strong>Комментарий:</strong> {{ profile.review_comment }}</p>
                 {% endif %}
-                            <p><a href="{% url 'main:teacher_applications' %}">📋 Управление преподавателями</a></p>
+                            <p><a href="{% url 'main:teacher_applications' %}">📋 Управление</a></p>
 
             {% endif %}
 
@@ -80,8 +80,9 @@
         {% if user.is_superuser %}
         <div class="profile-card">
             <h3>Панель администратора</h3>
-            <p><a href="{% url 'main:teacher_list' %}">📋 Управление преподавателями</a></p>
+            <p><a href="{% url 'main:teacher_list' %}">📋 Управление</a></p>
         </div>
         {% endif %}
+    </div>
     </div>
     {% endblock%}

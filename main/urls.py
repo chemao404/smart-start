@@ -1,11 +1,8 @@
 from django.urls import path
-from .views import *
+from main.views import *
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf import settings
-
-
-from main.views import *
 app_name = 'main'
 urlpatterns = [
    path("",index,name="index"),
@@ -25,4 +22,4 @@ urlpatterns = [
    path('teacher-applications/', teacher_applications, name='teacher_applications'),
    path('application/<int:application_id>/handle/', handle_application, name='handle_application'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

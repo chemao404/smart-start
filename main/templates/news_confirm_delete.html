@@ -4,7 +4,7 @@
 <head>
     <title>Удаление новости</title>
 </head>
-<body>
+    <div class="card-all-in">
     <h1>Удаление новости</h1>
 
     <p>Вы уверены, что хотите удалить новость "{{ new.title }}"?</p>
@@ -14,4 +14,5 @@
         <button type="submit">Да, удалить</button>
         <a href="{% url 'main:news_detail' new.pk %}">Отмена</a>
     </form>
+    </div>
     {% endblock %}

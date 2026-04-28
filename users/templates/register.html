@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 
 {% block content %}
+
 <head>
     <title>Регистрация</title>
     <style>
@@ -44,7 +45,7 @@
         .errorlist { color: red; font-size: 12px; margin: 0; padding: 0; list-style: none; }
     </style>
 </head>
-<body>
+    <div class="card-all-in">
     <div class="container">
         <h2>Регистрация</h2>
 
@@ -221,7 +222,7 @@
             Уже есть аккаунт? <a href="{% url 'users:login' %}">Войти</a>
         </p>
     </div>
-
+    </div>
 <script>
     function showFields(type) {
         document.getElementById('teacher-fields').style.display = 'none';

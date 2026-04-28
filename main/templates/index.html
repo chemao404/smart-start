@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Smart Start</title>
-    <!-- Подключение современного геометрического гротеска Inter + fallback -->
+    <title>SmartStart</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <!-- Подключение Swiper.js для слайдера -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
@@ -24,12 +22,7 @@
             <header class="header">
                 <div style="display: flex; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap;">
                     <div class="logo-area">
-                        <div class="logo-text">
-                            <span>SMART</span>
-                            <span>START</span>
-                        </div>
-                        <div class="logo-divider"></div>
-                        <div class="logo-icon">⚡</div>
+                        <a href="{% url 'main:index' %}"><img src="{% static 'img/лого.png' %}" alt="" width="70%"></a>
                     </div>
                     <div class="nav-vertical">
                         <a href="{% url 'main:news_list' %}">НОВОСТИ</a>
@@ -37,30 +30,31 @@
                         <a href="{% url 'main:teacher_list' %}">ПРЕПОДАВАТЕЛИ</a>
                     </div>
                 </div>
-                <button class="btn-outline">ПОДАТЬ ЗАЯВКУ</button>
+             {% if user.is_authenticated %}
+    <a href="{% url 'main:dashboard' %}"><button class="btn-outline">Личный кабинет</button></a>
+{% else %}
+    <a href="{% url 'users:register' %}"><button class="btn-outline">ПОДАТЬ ЗАЯВКУ</button></a>
+{% endif %}
             </header>
 {% block content %}
-            <!-- Основной контент (Hero Content) -->
             <div class="hero-main">
                 <div class="hero-text">
                     <h1>УМНЫЙ СТАРТ В ОБУЧЕНИИ</h1>
                     <div class="hero-sub">ЗАПИШИТЕСЬ НА ПРОБНОЕ ЗАНЯТИЕ</div>
                 </div>
-                <div class="hero-cta">
-                    <button class="btn-primary">ЗАПИСАТЬСЯ</button>
-                </div>
+{#                <div class="hero-cta">#}
+{#                    <button class="btn-primary">ЗАПИСАТЬСЯ</button>#}
+{#                </div>#}
             </div>
         </div>
     </section>
 
     <article>
         <div class="container">
-            <!-- Секция "НАПРАВЛЕНИЯ" с табами -->
             <div class="section">
                 <h2 class="section-title dark">НАПРАВЛЕНИЯ</h2>
 
                 <div class="tabs-wrapper">
-                    <!-- Таб-меню (горизонтальный список) -->
                     <div class="tabs-nav">
                         <button class="tab-btn active" data-tab="tab1">1-4 КЛАСС</button>
                         <button class="tab-btn" data-tab="tab2">5-8 КЛАСС</button>
@@ -68,7 +62,6 @@
                         <button class="tab-btn" data-tab="tab4">ПСИХОЛОГ</button>
                     </div>
 
-                    <!-- Контент для вкладки 1-4 КЛАСС (карточки по сетке 4 колонки) -->
                     <div class="tab-content active" id="tab1">
                         <div class="program-grid">
                             <div class="program-card">
@@ -94,7 +87,6 @@
                         </div>
                     </div>
 
-                    <!-- Контент для вкладки 5-8 КЛАСС (текст в 3 колонки по сетке) -->
                     <div class="tab-content" id="tab2">
                         <div class="multi-col-content">
                             <div class="col-text">
@@ -115,7 +107,6 @@
                         </div>
                     </div>
 
-                    <!-- Контент для вкладки 9-11 КЛАСС (текст с акцентом на профориентацию) -->
                     <div class="tab-content" id="tab3">
                         <div class="multi-col-content">
                             <div class="col-text">
@@ -136,7 +127,6 @@
                         </div>
                     </div>
 
-                    <!-- Контент для вкладки ПСИХОЛОГ (текст) -->
                     <div class="tab-content" id="tab4">
                         <div class="multi-col-content">
                             <div class="col-text">
@@ -180,19 +170,14 @@
         </div>
     </article>
 
-    <!-- Секция "ПРЕИМУЩЕСТВА" -->
     <article class="advantages-section">
         <div class="advantages-container">
             <h2 class="advantages-title">ПРЕИМУЩЕСТВА</h2>
             <div class="advantages-grid">
-                <!-- Левая колонка с изображением -->
                 <div class="advantages-image-col">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23F5F5F5'/%3E%3Ctext x='50%25' y='45%25' font-size='24' font-family='Arial' fill='%235E17E6' text-anchor='middle' font-weight='bold'%3EREADY?%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='32' font-family='Arial' fill='%235E17E6' text-anchor='middle' font-weight='bold'%3ESTUDY GO!%3C/text%3E%3C/svg%3E"
-                         alt="Ready? Study Go!"
-                         class="advantages-image">
+                    <img src="{% static 'img/ц.png' %}" alt="" width="90%">
                 </div>
 
-                <!-- Правая колонка с блоками преимуществ -->
                 <div class="advantages-text-col">
                     <div class="advantage-card">
                         <h3 class="advantage-card-title">Индивидуальный подход</h3>
@@ -212,81 +197,8 @@
             </div>
         </div>
     </article>
+    
 
-    <!-- Секция "ПРЕПОДАВАТЕЛИ" -->
-    <article class="teachers-section">
-        <div class="teachers-container">
-            <h2 class="teachers-title">ПРЕПОДАВАТЕЛИ</h2>
-            <div class="teachers-grid">
-                <!-- Карточка 1 -->
-                <div class="teacher-card">
-                    <div class="teacher-image-wrapper">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👨‍🏫%3C/text%3E%3C/svg%3E"
-                               alt="Александр Смирнов"
-                               class="teacher-photo">
-                        <div class="teacher-info">
-                            <span class="teacher-name">АЛЕКСАНДР СМИРНОВ</span>
-                            <span class="teacher-subject">МАТЕМАТИКА</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Карточка 2 -->
-                <div class="teacher-card">
-                    <div class="teacher-image-wrapper">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👩‍💻%3C/text%3E%3C/svg%3E"
-                               alt="Елена Ковалева"
-                               class="teacher-photo">
-                        <div class="teacher-info">
-                            <span class="teacher-name">ЕЛЕНА КОВАЛЕВА</span>
-                            <span class="teacher-subject">ПРОГРАММИРОВАНИЕ</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Карточка 3 -->
-                <div class="teacher-card">
-                    <div class="teacher-image-wrapper">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👩‍🎓%3C/text%3E%3C/svg%3E"
-                               alt="Мария Волкова"
-                               class="teacher-photo">
-                        <div class="teacher-info">
-                            <span class="teacher-name">МАРИЯ ВОЛКОВА</span>
-                            <span class="teacher-subject">ФИЗИКА</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Карточка 4 -->
-                <div class="teacher-card">
-                    <div class="teacher-image-wrapper">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E👨‍🔬%3C/text%3E%3C/svg%3E"
-                               alt="Дмитрий Новиков"
-                               class="teacher-photo">
-                        <div class="teacher-info">
-                            <span class="teacher-name">ДМИТРИЙ НОВИКОВ</span>
-                            <span class="teacher-subject">ИНФОРМАТИКА</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Карточка 5 -->
-                <div class="teacher-card">
-                    <div class="teacher-image-wrapper">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%234A0FB3'/%3E%3Ccircle cx='200' cy='200' r='80' fill='%23FFFFFF' opacity='0.3'/%3E%3Ctext x='200' y='340' font-size='18' font-family='Arial' fill='%23FFFFFF' text-anchor='middle'%3E🧠%3C/text%3E%3C/svg%3E"
-                               alt="Анна Морозова"
-                               class="teacher-photo">
-                        <div class="teacher-info">
-                            <span class="teacher-name">АННА МОРОЗОВА</span>
-                            <span class="teacher-subject">ПСИХОЛОГИЯ</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <!-- Секция "ОТЗЫВЫ" со слайдером -->
     <article class="reviews-section">
         <div class="reviews-container">
             <h2 class="reviews-title">ОТЗЫВЫ</h2>
@@ -294,13 +206,10 @@
             <div class="slider-wrapper">
                 <div class="swiper reviews-swiper">
                     <div class="swiper-wrapper">
-                        <!-- Слайд 1 -->
                         <div class="swiper-slide">
                             <div class="review-card">
-                                <div class="review-image-wrapper">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👩‍🎓%3C/text%3E%3C/svg%3E"
-                                         alt="Анна Кузнецова"
-                                         class="review-photo">
+                                <div class="review-image-wrapper" >
+                                    <img src="{% static 'img/image 12.png' %}" alt="" class="review-photo">
                                     <div class="review-info">
                                         <span class="review-name">АННА КУЗНЕЦОВА</span>
                                         <span class="review-text">Отличный центр! Ребенок ходит с удовольствием, преподаватели настоящие профессионалы. Успеваемость в школе значительно выросла.</span>
@@ -309,13 +218,10 @@
                             </div>
                         </div>
 
-                        <!-- Слайд 2 -->
                         <div class="swiper-slide">
                             <div class="review-card">
                                 <div class="review-image-wrapper">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👨‍💼%3C/text%3E%3C/svg%3E"
-                                         alt="Михаил Соколов"
-                                         class="review-photo">
+                                    <img src="{% static 'img/image 12.png' %}" alt="" class="review-photo">
                                     <div class="review-info">
                                         <span class="review-name">МИХАИЛ СОКОЛОВ</span>
                                         <span class="review-text">Сын поступил в IT-лицей после подготовки в Smart Start. Огромное спасибо команде за индивидуальный подход и качественные знания!</span>
@@ -324,13 +230,10 @@
                             </div>
                         </div>
 
-                        <!-- Слайд 3 -->
                         <div class="swiper-slide">
                             <div class="review-card">
                                 <div class="review-image-wrapper">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👩‍💼%3C/text%3E%3C/svg%3E"
-                                         alt="Елена Воробьева"
-                                         class="review-photo">
+                                    <img src="{% static 'img/image 12.png' %}" alt="" class="review-photo">
                                     <div class="review-info">
                                         <span class="review-name">ЕЛЕНА ВОРОБЬЕВА</span>
                                         <span class="review-text">Замечательные педагоги, уютная атмосфера. Дочь с нетерпением ждет каждого занятия. Спасибо за вашу работу!</span>
@@ -339,13 +242,11 @@
                             </div>
                         </div>
 
-                        <!-- Слайд 4 (дополнительный) -->
                         <div class="swiper-slide">
                             <div class="review-card">
                                 <div class="review-image-wrapper">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E🧑‍🏫%3C/text%3E%3C/svg%3E"
-                                         alt="Дмитрий Волков"
-                                         class="review-photo">
+                                    <img src="{% static 'img/image 12.png' %}" alt="" class="review-photo">
+
                                     <div class="review-info">
                                         <span class="review-name">ДМИТРИЙ ВОЛКОВ</span>
                                         <span class="review-text">Отличные курсы программирования! Преподаватели объясняют сложные темы простым языком. Рекомендую всем родителям.</span>
@@ -354,13 +255,10 @@
                             </div>
                         </div>
 
-                        <!-- Слайд 5 -->
                         <div class="swiper-slide">
                             <div class="review-card">
                                 <div class="review-image-wrapper">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23F0F0F0'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%23E0E0E0'/%3E%3Ctext x='200' y='320' font-size='14' font-family='Arial' fill='%23999999' text-anchor='middle'%3E👩‍🎨%3C/text%3E%3C/svg%3E"
-                                         alt="Светлана Морозова"
-                                         class="review-photo">
+                                    <img src="{% static 'img/image 12.png' %}" alt="" class="review-photo">
                                     <div class="review-info">
                                         <span class="review-name">СВЕТЛАНА МОРОЗОВА</span>
                                         <span class="review-text">Благодаря занятиям с психологом ребенок стал увереннее в себе. Огромное спасибо за чуткость и профессионализм!</span>
@@ -371,42 +269,18 @@
                     </div>
                 </div>
 
-                <!-- Кастомные стрелки навигации -->
                 <div class="swiper-button-prev reviews-prev"></div>
                 <div class="swiper-button-next reviews-next"></div>
             </div>
         </div>
     </article>
 
-    <!-- Секция "ЗАДАЙТЕ ВОПРОС" с формой -->
-    <article class="question-section">
-        <div class="question-overlay"></div>
-        <div class="question-container">
-            <h2 class="question-title">ЗАДАЙТЕ НАМ ВОПРОС</h2>
 
-            <form class="question-form" id="contactForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Ваше имя" required class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="phone" name="phone" placeholder="Телефон" required class="form-input">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <textarea id="message" name="message" rows="5" placeholder="Ваш вопрос" required class="form-textarea"></textarea>
-                </div>
-                <button type="submit" class="form-submit">ОТПРАВИТЬ</button>
-            </form>
-        </div>
-    </article>
 {% endblock %}
 
-    <!-- Секция "ФУТЕР" -->
     <footer class="footer-section">
         <div class="footer-container">
             <div class="footer-grid">
-                <!-- Колонка 1: Навигация -->
                 <div class="footer-col">
                     <ul class="footer-list">
                         <li><a href="#" class="footer-link">Главная</a></li>
@@ -416,23 +290,12 @@
                     </ul>
                 </div>
 
-                <!-- Колонка 2: Программы -->
-                <div class="footer-col">
-                    <ul class="footer-list">
-                        <li><a href="#" class="footer-link">1-4 класс (Начальная школа)</a></li>
-                        <li><a href="#" class="footer-link">5-8 класс (Средняя школа)</a></li>
-                        <li><a href="#" class="footer-link">9-11 класс (Подготовка к ЕГЭ)</a></li>
-                        <li><a href="#" class="footer-link">Психологическая поддержка</a></li>
-                    </ul>
-                </div>
 
-                <!-- Колонка 3: Связь и документы -->
                 <div class="footer-col">
                     <ul class="footer-list">
                         <li><a href="#" class="footer-link">Подать заявку</a></li>
                         <li><a href="#" class="footer-link">Telegram / WhatsApp</a></li>
                         <li><a href="#" class="footer-link">Политика конфиденциальности</a></li>
-                        <li class="footer-copyright">© 2024 Smart Start</li>
                     </ul>
                 </div>
             </div>
@@ -441,7 +304,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Инициализация Swiper слайдера
         document.addEventListener('DOMContentLoaded', function() {
             const swiper = new Swiper('.reviews-swiper', {
                 slidesPerView: 1,
@@ -466,13 +328,11 @@
             });
         });
 
-        // Обработка отправки формы
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                // Собираем данные формы
                 const formData = new FormData(contactForm);
                 const data = {
                     name: formData.get('name'),
@@ -480,18 +340,14 @@
                     message: formData.get('message')
                 };
 
-                // Здесь можно добавить отправку данных на сервер
                 console.log('Отправленные данные:', data);
 
-                // Показываем сообщение об успешной отправке
                 alert('Спасибо! Ваш вопрос отправлен. Мы свяжемся с вами в ближайшее время.');
 
-                // Очищаем форму
                 contactForm.reset();
             });
         }
 
-        // Логика работы табов
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -499,11 +355,9 @@
             btn.addEventListener('click', () => {
                 const tabId = btn.getAttribute('data-tab');
 
-                // Убираем активный класс у всех кнопок и контента
                 tabBtns.forEach(b => b.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
 
-                // Добавляем активный класс текущей кнопке и соответствующему контенту
                 btn.classList.add('active');
                 const activeContent = document.getElementById(tabId);
                 if (activeContent) {

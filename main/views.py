@@ -64,19 +64,6 @@ def contact(request):
 @login_required
 def dashboard(request):
     user = request.user
-
-    if user.user_type == 'teacher':
-        teacher_profile = user.teacher_profile
-        if teacher_profile.status == 'pending':
-            messages.info(request, '⚠️ Ваш профиль находится на проверке у администратора')
-        elif teacher_profile.status == 'rejected':
-            messages.warning(
-                request,
-                f'❌ Ваш профиль отклонен. Причина: {teacher_profile.review_comment}'
-            )
-        elif teacher_profile.status == 'approved':
-            messages.success(request, '✅ Ваш профиль одобрен! Вам доступны все функции.')
-
     context = {
         'user': user,
     }
@@ -94,7 +81,6 @@ def dashboard(request):
 @login_required
 def approve_teacher(request, teacher_id):
     if not request.user.is_superuser:
-        messages.error(request, 'У вас нет прав для этого действия!')
         return redirect('main:dashboard')
     teacher = get_object_or_404(TeacherProfile, id=teacher_id)
 
@@ -107,17 +93,6 @@ def approve_teacher(request, teacher_id):
         teacher.review_date = timezone.now()
         teacher.review_comment = comment
         teacher.save()
-
-        if status == 'approved':
-            messages.success(
-                request,
-                f'✅ Преподаватель {teacher.user.get_full_name()} одобрен!'
-            )
-        else:
-            messages.success(
-                request,
-                f'❌ Преподаватель {teacher.user.get_full_name()} отклонен!'
-            )
 
         return redirect('main:teacher_list')
 
@@ -149,7 +124,6 @@ def teacher_list(request):
 @login_required
 def create_application(request, teacher_id):
     if request.user.user_type != 'student':
-        messages.error(request, 'Только ученики могут создавать заявки')
         return redirect('main:teacher_list')
 
     teacher = get_object_or_404(TeacherProfile, id=teacher_id, status='approved')
@@ -162,7 +136,6 @@ def create_application(request, teacher_id):
     ).exists()
 
     if existing:
-        messages.warning(request, 'У вас уже есть активная заявка к этому преподавателю')
         return redirect('main:teacher_list')
 
     if request.method == 'POST':
@@ -172,7 +145,6 @@ def create_application(request, teacher_id):
             teacher=teacher,
             message=message
         )
-        messages.success(request, '✅ Заявка отправлена! Ожидайте ответа преподавателя.')
         return redirect('main:student_applications')
 
     return render(request, 'create_application.html', {
@@ -183,7 +155,6 @@ def create_application(request, teacher_id):
 @login_required
 def student_applications(request):
     if request.user.user_type != 'student':
-        messages.error(request, 'Это страница для учеников')
         return redirect('main:dashboard')
 
     student = request.user.student_profile
@@ -197,11 +168,9 @@ def student_applications(request):
 @login_required
 def teacher_applications(request):
     if request.user.user_type != 'teacher':
-        messages.error(request, 'Это страница для преподавателей')
         return redirect('main:dashboard')
     teacher = request.user.teacher_profile
     if teacher.status != 'approved':
-        messages.warning(request, 'Ваш профиль еще не одобрен администратором')
         return redirect('main:dashboard')
     applications = teacher.applications.select_related('student__user').all()
     return render(request, 'teacher_applications.html', {
@@ -212,7 +181,6 @@ def teacher_applications(request):
 @login_required
 def handle_application(request, application_id):
     if request.user.user_type != 'teacher':
-        messages.error(request, 'Только преподаватели могут обрабатывать заявки')
         return redirect('main:dashboard')
     application = get_object_or_404(
         Application,
@@ -225,11 +193,9 @@ def handle_application(request, application_id):
         if action == 'approve':
             application.status = 'approved'
             application.teacher_comment = comment
-            messages.success(request, f'✅ Заявка от {application.student.user.username} принята')
         elif action == 'reject':
             application.status = 'rejected'
             application.teacher_comment = comment
-            messages.success(request, f'❌ Заявка от {application.student.user.username} отклонена')
         application.save()
         return redirect('main:teacher_applications')
     return render(request, 'handle_application.html', {

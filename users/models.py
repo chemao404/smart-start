@@ -73,9 +73,9 @@ class TeacherProfile(models.Model):
     specialization = models.CharField(
         max_length=200,
         verbose_name='Специализация',
-        blank=True,  # можно оставить пустым в форме
-        null=True,  # можно сохранить NULL в базе
-        default=''  # значение по умолчанию
+        blank=True,
+        null=True,
+        default=''
     )
 
     experience = models.TextField(

@@ -4,7 +4,7 @@
 <head>
     <title>{% if object %}Редактировать{% else %}Создать{% endif %} новость</title>
 </head>
-<body>
+    <div class="card-all-in">
     <h1>{% if object %}Редактировать{% else %}Создать{% endif %} новость</h1>
 
     <form method="post" enctype="multipart/form-data">
@@ -14,4 +14,5 @@
     </form>
 
     <a href="{% url 'main:news_list' %}">Отмена</a>
+    </div>
 {% endblock %}

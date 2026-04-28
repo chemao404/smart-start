@@ -1,9 +1,8 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<style>
 
-</style>
+    <div class="card-all-in">
 
 <div class="list-wrap">
     {% if user_type == 'admin' or user.is_superuser %}
@@ -58,4 +57,5 @@
         </div>
     {% endif %}
 </div>
+    </div>
 {% endblock %}

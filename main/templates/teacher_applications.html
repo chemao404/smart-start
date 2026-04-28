@@ -3,11 +3,10 @@
 {% block content %}
 <head>
     <title>Заявки ко мне</title>
-    <style>
 
-    </style>
 </head>
-<body>
+    <div class="card-all-in">
+
     <div class="container">
         <h1>Заявки на обучение</h1>
 
@@ -41,5 +40,6 @@
         {% endfor %}
 
         <p><a href="{% url 'main:dashboard' %}">← В дашборд</a></p>
+    </div>
     </div>
 {% endblock %}
