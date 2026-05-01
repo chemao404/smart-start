@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моё расписание</title>
+    <style>
+        body { font-family: Inter, Arial, sans-serif; padding: 16px; }
+        .day-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+        .day-tab {
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid #e7e7ef;
+            color: #3730a3;
+            background: #fff;
+        }
+        .day-tab.active {
+            background: #e0e7ff;
+            border-color: #6a5af9;
+        }
+        .card { border: 1px solid #e7e7ef; border-radius: 12px; padding: 14px; margin-bottom: 14px; max-width: 1050px; }
+        .time-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .time-btn {
+            border: 1px solid #6a5af9;
+            color: #6a5af9;
+            background: transparent;
+            padding: 10px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .time-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        table { border-collapse: collapse; width: 100%; max-width: 1050px; }
+        th, td { border: 1px solid #e7e7ef; padding: 8px; text-align: center; }
+        th { background: #f6f6fb; }
+        .muted { color: #777; }
+    </style>
+</head>
+<body>
+<a href="{% url 'main:dashboard' %}">Назад</a>
+
+<h2 style="margin-top: 10px;">Моё расписание</h2>
+
+{% if teacher %}
+    <div class="card">
+        <div style="color:#444;">
+            <strong>Преподаватель:</strong> {{ teacher.user.get_full_name|default:teacher.user.username }}
+        </div>
+
+        <div class="day-tabs" aria-label="Week days">
+            {% for d in day_tabs %}
+                <a
+                    class="day-tab {% if d.day_idx == selected_day_idx %}active{% endif %}"
+                    href="?teacher_id={{ teacher.id }}&day={{ d.day_idx }}"
+                >
+                    {{ d.label }} ({{ d.date_obj|date:"d.m" }})
+                </a>
+            {% endfor %}
+        </div>
+
+        <h3>Выберите время</h3>
+
+        {% if is_active %}
+            <form method="post" action="{% url 'main:student_schedule_book' %}">
+                {% csrf_token %}
+                <input type="hidden" name="teacher_id" value="{{ teacher.id }}">
+
+                <div class="time-row">
+                    {% for hour in hours %}
+                        {% if hour in available_hours_for_day %}
+                            <button class="time-btn" type="submit" name="slot_key" value="{{ selected_day_idx }}-{{ hour }}">
+                                {{ hour }}:00
+                            </button>
+                        {% else %}
+                            <button class="time-btn" type="button" disabled>
+                                {{ hour }}:00
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </form>
+        {% else %}
+            <div class="muted">У преподавателя нет активного расписания на эту неделю.</div>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>Мои занятия</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Урок</th>
+                    <th>Преподаватель</th>
+                    <th>Дата/время</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in my_lessons %}
+                    <tr>
+                        <td>{{ item.lesson_title }}</td>
+                        <td>{{ item.teacher_name }}</td>
+                        <td>{{ item.start_datetime|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="muted">Пока нет записей на эту неделю.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="card muted">
+        У вас нет выбранного преподавателя (или он ещё не одобрен).
+    </div>
+{% endif %}
+</body>
+</html>
+

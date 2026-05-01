@@ -26,15 +26,29 @@
                     </div>
                     <div class="nav-vertical">
                         <a href="{% url 'main:news_list' %}">НОВОСТИ</a>
+                        {% if user.is_authenticated %}
+                            {% if user.user_type == 'teacher' %}
+                                <a href="{% url 'main:schedule' %}">РАСПИСАНИЕ</a>
+                            {% endif %}
+                        {% endif %}
                         <a href="{% url 'main:contact' %}">КОНТАКТЫ</a>
                         <a href="{% url 'main:teacher_list' %}">ПРЕПОДАВАТЕЛИ</a>
                     </div>
                 </div>
              {% if user.is_authenticated %}
-    <a href="{% url 'main:dashboard' %}"><button class="btn-outline">Личный кабинет</button></a>
-{% else %}
-    <a href="{% url 'users:register' %}"><button class="btn-outline">ПОДАТЬ ЗАЯВКУ</button></a>
-{% endif %}
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    {% if user.user_type == 'teacher' %}
+                        <a href="{% url 'main:schedule' %}">
+                            <button class="btn-outline">Расписание</button>
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'main:dashboard' %}">
+                        <button class="btn-outline">Профиль</button>
+                    </a>
+                </div>
+             {% else %}
+                <a href="{% url 'users:register' %}"><button class="btn-outline">ПОДАТЬ ЗАЯВКУ</button></a>
+             {% endif %}
             </header>
 {% block content %}
             <div class="hero-main">

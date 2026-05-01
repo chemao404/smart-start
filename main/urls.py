@@ -7,6 +7,10 @@ app_name = 'main'
 urlpatterns = [
    path("",index,name="index"),
    path("teachers", teacher_list, name="teacher_list"),
+   path("schedule", schedule, name="schedule"),
+   path("student/schedule", student_schedule, name="student_schedule"),
+   path("student/schedule/book", student_schedule_book, name="student_schedule_book"),
+   path("schedule/manage", schedule_manage, name="schedule_manage"),
    path("contact", contact, name="contact"),
 
    path('news_list', NewsListView.as_view(), name='news_list'),

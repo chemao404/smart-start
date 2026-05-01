@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание</title>
+    <style>
+        body { font-family: Inter, Arial, sans-serif; padding: 16px; }
+        .top-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+        .btn {
+            border: 1px solid #6a5af9;
+            color: #6a5af9;
+            background: transparent;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn.primary { background: #6a5af9; color: white; }
+        .btn.danger { border-color: #dc3545; color: #dc3545; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        table { border-collapse: collapse; width: 100%; max-width: 1100px; }
+        th, td { border: 1px solid #e7e7ef; padding: 8px; text-align: center; vertical-align: top; }
+        th { background: #f6f6fb; }
+        .time-col { width: 90px; }
+        .student-chip { display: inline-block; background: #eef2ff; color: #3730a3; padding: 2px 8px; border-radius: 999px; margin: 2px 0; font-size: 12px; }
+        .cell-empty { color: #999; font-size: 12px; }
+        .slot-cell { cursor: pointer; }
+        .slot-cell.scheduled { background: #f0f9ff; }
+        .slot-cell.selected {
+            background: #e0e7ff !important;
+            outline: 3px solid rgba(106, 90, 249, 0.65);
+        }
+        .schedule-message { padding: 12px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; margin: 12px 0; }
+
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; padding: 18px; }
+        .modal { width: 100%; max-width: 1120px; background: white; border-radius: 12px; padding: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .x-btn { border: none; background: transparent; font-size: 22px; cursor: pointer; }
+        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 12px; }
+    </style>
+</head>
+<body>
+{% load schedule_extras %}
+<div class="top-row">
+    <a href="{% url 'main:index' %}">На главную</a>
+    <div style="flex:1"></div>
+
+    {% if can_edit %}
+        <button id="openModalBtn" class="btn primary">
+            {% if is_active %}Редактировать запись{% else %}Открыть запись{% endif %}
+        </button>
+    {% endif %}
+</div>
+
+<h2 style="margin-top: 8px; margin-bottom: 10px;">Расписание (неделя с {{ week_start_date }})</h2>
+
+{% if not is_active %}
+    <div class="schedule-message">
+        You don't set you schedule, open the recording.
+    </div>
+{% endif %}
+
+<table aria-label="Teacher schedule">
+    <thead>
+        <tr>
+            <th class="time-col">Время</th>
+            {% for day_idx, day_label in days %}
+                <th>{{ day_label }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for hour in hours %}
+            <tr>
+                <th class="time-col">{{ hour }}:00</th>
+                {% for day_idx, day_label in days %}
+                            {% with slot_day=day_idx|stringformat:"s" %}
+                                {% with slot_hour=hour|stringformat:"s" %}
+                                    {% with slot_key=slot_day|add:"-"|add:slot_hour %}
+                                        <td
+                                            class="slot-cell {% if is_active and slot_key in scheduled_slot_keys %}scheduled{% endif %}"
+                                            data-slot-key="{{ slot_key }}"
+                                        >
+                                            {% if is_active and slot_key in scheduled_slot_keys %}
+                                                {% with booked_surnames=booked_surnames_by_slot_key|dict_get:slot_key %}
+                                                    {% if booked_surnames %}
+                                                        {% for surname in booked_surnames %}
+                                                            <div class="student-chip">{{ surname }}</div>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <div class="cell-empty">Занятие</div>
+                                                    {% endif %}
+                                                {% endwith %}
+                                            {% else %}
+                                                <span class="cell-empty"></span>
+                                            {% endif %}
+                                        </td>
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endwith %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Modal: interactive timetable -->
+{% if can_edit %}
+    <div id="scheduleModalOverlay" class="modal-overlay">
+        <div class="modal" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <div>
+                    <strong>Создать / отменить запись</strong>
+                    <div style="color:#666; font-size: 12px; margin-top: 4px;">
+                        Выберите ячейки (несколько разрешено).
+                    </div>
+                </div>
+                <button class="x-btn" id="closeModalBtn" type="button">×</button>
+            </div>
+
+            <form id="scheduleForm" method="post" action="{% url 'main:schedule_manage' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" id="actionInput" value="create_slots">
+                <input type="hidden" name="selected_slots" id="selectedSlotsInput" value="">
+
+                    <div style="color:#6a5af9; font-size: 13px; margin-bottom: 10px;">
+                        Выбрано ячеек: <strong><span id="selectedCount">0</span></strong>
+                    </div>
+                    <div style="color:#6a5af9; font-size: 13px; margin-bottom: 10px;">
+                        Last click: <strong><span id="lastClickedKey">—</span></strong>
+                    </div>
+
+                <table aria-label="Schedule selection">
+                    <thead>
+                        <tr>
+                            <th class="time-col">Время</th>
+                            {% for day_idx, day_label in days %}
+                                <th>{{ day_label }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hour in hours %}
+                            <tr>
+                                <th class="time-col">{{ hour }}:00</th>
+                                {% for day_idx, day_label in days %}
+                                    {% with slot_day=day_idx|stringformat:"s" %}
+                                        {% with slot_hour=hour|stringformat:"s" %}
+                                            {% with slot_key=slot_day|add:"-"|add:slot_hour %}
+                                                <td
+                                                    class="slot-cell
+                                                        {% if is_active and slot_key in scheduled_slot_keys %}scheduled{% endif %}"
+                                                    data-slot-key="{{ slot_key }}"
+                                                >
+                                            {% if is_active and slot_key in scheduled_slot_keys %}
+                                                        {% with booked_surnames=booked_surnames_by_slot_key|dict_get:slot_key %}
+                                                            {% if booked_surnames %}
+                                                                {% for surname in booked_surnames %}
+                                                                    <div class="student-chip">{{ surname }}</div>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                <div class="cell-empty">Занятие</div>
+                                                            {% endif %}
+                                                        {% endwith %}
+                                                    {% else %}
+                                                        <span class="cell-empty">&nbsp;</span>
+                                                    {% endif %}
+                                                </td>
+                                            {% endwith %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="modal-actions">
+                    <button
+                        id="deleteBtn"
+                        type="button"
+                        class="btn danger"
+                        {% if not is_active %}disabled{% endif %}
+                    >Удалить запись</button>
+                    <button id="saveBtn" type="button" class="btn primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const overlay = document.getElementById('scheduleModalOverlay');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const deleteBtn = document.getElementById('deleteBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const actionInput = document.getElementById('actionInput');
+            const selectedSlotsInput = document.getElementById('selectedSlotsInput');
+            const form = document.getElementById('scheduleForm');
+            const selectedCountEl = document.getElementById('selectedCount');
+            const lastClickedKeyEl = document.getElementById('lastClickedKey');
+
+            const selected = new Set();
+
+            function syncHidden() {
+                selectedSlotsInput.value = Array.from(selected).join(',');
+                if (selectedCountEl) selectedCountEl.textContent = selected.size;
+            }
+
+            function setModalOpen(isOpen) {
+                overlay.style.display = isOpen ? 'flex' : 'none';
+            }
+
+            openBtn.addEventListener('click', function() {
+                selected.clear();
+                syncHidden();
+                document.querySelectorAll('#scheduleModalOverlay .slot-cell.selected').forEach(el => el.classList.remove('selected'));
+                setModalOpen(true);
+            });
+
+            closeBtn.addEventListener('click', function() {
+                setModalOpen(false);
+            });
+
+            // One handler: close only when clicking the overlay background,
+            // otherwise toggle selection on the nearest timetable cell.
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    setModalOpen(false);
+                    return;
+                }
+
+                const cell = e.target.closest('.slot-cell');
+                if (!cell) return;
+
+                const key = cell.getAttribute('data-slot-key');
+                if (lastClickedKeyEl) lastClickedKeyEl.textContent = key || 'NO_KEY';
+                if (!key) return;
+
+                if (selected.has(key)) {
+                    selected.delete(key);
+                    cell.classList.remove('selected');
+                } else {
+                    selected.add(key);
+                    cell.classList.add('selected');
+                }
+                syncHidden();
+            });
+
+            saveBtn.addEventListener('click', function() {
+                if (selected.size === 0) {
+                    alert('Выберите хотя бы одну ячейку.');
+                    return;
+                }
+                actionInput.value = 'create_slots';
+                syncHidden();
+                form.submit();
+            });
+
+            deleteBtn.addEventListener('click', function() {
+                if (selected.size === 0) {
+                    alert('Выберите ячейки для удаления.');
+                    return;
+                }
+                actionInput.value = 'delete_bookings';
+                syncHidden();
+                form.submit();
+            });
+        })();
+    </script>
+{% endif %}
+</body>
+</html>

@@ -66,6 +66,36 @@
                 <p><strong>Класс:</strong> {{ profile.grade|default:"Не указан" }}</p>
             {% endif %}
 
+            {% if user.user_type == 'student' %}
+                <div class="profile-card" style="margin-top: 16px;">
+                    <h3>Мои занятия (неделя)</h3>
+                    <table style="width:100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="border:1px solid #ddd; padding:8px; background:#f6f6fb;">Урок</th>
+                                <th style="border:1px solid #ddd; padding:8px; background:#f6f6fb;">Преподаватель</th>
+                                <th style="border:1px solid #ddd; padding:8px; background:#f6f6fb;">Дата/время</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in my_lessons %}
+                            <tr>
+                                <td style="border:1px solid #ddd; padding:8px;">{{ item.lesson_title }}</td>
+                                <td style="border:1px solid #ddd; padding:8px;">{{ item.teacher_name }}</td>
+                                <td style="border:1px solid #ddd; padding:8px;">{{ item.start_datetime|date:"d.m.Y H:i" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="3" style="border:1px solid #ddd; padding:8px; color:#777;">
+                                    Пока нет записей на эту неделю.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
             {% if user.user_type == 'parent' and profile %}
                 <h3>Информация о родителе:</h3>
                 <p><strong>Контактный телефон:</strong> {{ profile.contact_phone }}</p>
@@ -73,6 +103,7 @@
             {% endif %}
         {% if user.user_type == 'student' %}
             <p><a href="{% url 'main:student_applications' %}">📋 Управление</a></p>
+            <p><a href="{% url 'main:student_schedule' %}">📅 Моё расписание</a></p>
         {% endif %}
 
         </div>
